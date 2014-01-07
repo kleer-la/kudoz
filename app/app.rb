@@ -5,6 +5,12 @@ module Koinz
     register Padrino::Helpers
 
     enable :sessions
+    
+    use OmniAuth::Builder do
+      # For additional provider examples please look at 'omni_auth.rb'
+      #provider :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET'], {}
+      provider :google_oauth2, "83174160117-uov86938g2j6qhunuvm5gjceuvgqejak.apps.googleusercontent.com", "l3BL8-kQKuAqqPRQtw8sZIAU", {}
+    end
 
     ##
     # Caching support.
@@ -57,5 +63,23 @@ module Koinz
     #     render 'errors/505'
     #   end
     #
+    
+    get '/' do
+        "<a href='/auth/google_oauth2'>Sign in with Google</a>"
+    end
+ 
+    get '/auth/:provider/callback' do
+      content_type 'text/html'
+      request.env['omniauth.auth']["info"]["first_name"]+" "+request.env['omniauth.auth']["info"]["last_name"] +
+        "<br/>" +
+        request.env['omniauth.auth']["info"]["email"] +
+        "<br/><img src=\"#{request.env['omniauth.auth']["info"]["image"]}\"/>"
+    end
+
+    get '/auth/failure' do
+      content_type 'text/plain'
+      request.env['omniauth.auth']["info"].to_hash.inspect rescue "No Data"
+    end
+    
   end
 end
