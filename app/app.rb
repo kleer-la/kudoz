@@ -73,12 +73,14 @@ module Koinz
       request.env['omniauth.auth']["info"]["first_name"]+" "+request.env['omniauth.auth']["info"]["last_name"] +
         "<br/>" +
         request.env['omniauth.auth']["info"]["email"] +
-        "<br/><img src=\"#{request.env['omniauth.auth']["info"]["image"]}\"/>"
+        "<br/><img src=\"#{request.env['omniauth.auth']["info"]["image"]}\"/>" +
+        "<br/>" +
+        request.env['omniauth.auth'].to_hash.inspect
     end
 
     get '/auth/failure' do
       content_type 'text/plain'
-      request.env['omniauth.auth']["info"].to_hash.inspect rescue "No Data"
+      request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
     end
     
   end
