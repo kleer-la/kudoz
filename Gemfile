@@ -17,7 +17,14 @@ gem 'rake'
 gem 'sass'
 gem 'haml'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
-gem 'sqlite3'
+
+group :development, :test do
+ gem 'sqlite3'
+end
+
+group :production do
+ gem 'pg'
+end
 
 # Test requirements
 gem 'rspec', :group => 'test'
