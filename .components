@@ -1,9 +1,9 @@
 ---
-:orm: none
+:orm: activerecord
 :test: rspec
 :mock: none
-:script: none
+:script: jquery
 :renderer: haml
-:stylesheet: none
+:stylesheet: sass
 :namespace: Koinz
 :migration_format: number

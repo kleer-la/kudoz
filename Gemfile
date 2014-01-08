@@ -14,7 +14,10 @@ source 'https://rubygems.org'
 gem 'rake'
 
 # Component requirements
+gem 'sass'
 gem 'haml'
+gem 'activerecord', '>= 3.1', :require => 'active_record'
+gem 'sqlite3'
 
 # Test requirements
 gem 'rspec', :group => 'test'

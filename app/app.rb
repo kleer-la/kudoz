@@ -1,5 +1,7 @@
 module Koinz
   class App < Padrino::Application
+    register SassInitializer
+    use ActiveRecord::ConnectionAdapters::ConnectionManagement
     register Padrino::Rendering
     register Padrino::Mailer
     register Padrino::Helpers
@@ -65,9 +67,9 @@ module Koinz
     #
     
     get '/' do
-        "<a href='/auth/google_oauth2'>Sign in with Google</a>"
+      "<a href='/auth/google_oauth2'>Sign in with Google</a>"
     end
- 
+
     get '/auth/:provider/callback' do
       content_type 'text/html'
       request.env['omniauth.auth']["info"]["first_name"]+" "+request.env['omniauth.auth']["info"]["last_name"] +
