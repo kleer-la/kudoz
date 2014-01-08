@@ -67,22 +67,42 @@ module Koinz
     #
     
     get '/' do
-      "<a href='/auth/google_oauth2'>Sign in with Google</a>"
+      account = session[:account]
+    
+      if account.nil?
+        "<a href='/auth/google_oauth2'>Sign in with Google</a>"
+      else
+        "Cuenta: #{account.name}<br/>" +
+        "Saldo: #{account.balance} Koinz<br/>" +
+        "<hr/>" +
+        "<a href='/auth/log_out'>Log Out</a>"
+      end
     end
 
     get '/auth/:provider/callback' do
-      content_type 'text/html'
-      request.env['omniauth.auth']["info"]["first_name"]+" "+request.env['omniauth.auth']["info"]["last_name"] +
-        "<br/>" +
-        request.env['omniauth.auth']["info"]["email"] +
-        "<br/><img src=\"#{request.env['omniauth.auth']["info"]["image"]}\"/>" +
-        "<br/>" +
-        request.env['omniauth.auth'].to_hash.inspect
+      
+      provider = params[:provider]
+      uid = request.env['omniauth.auth']["uid"]
+      name = request.env['omniauth.auth']["info"]["name"]
+      
+      account = Account.find_for_omniouth( provider, uid, name )
+      
+      if !account.nil?
+        session[:account] = account
+      end
+      
+      redirect_to "/"
+
     end
 
     get '/auth/failure' do
       content_type 'text/plain'
       request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
+    end
+    
+    get '/auth/log_out' do
+      session[:account] = nil
+      redirect_to "/"
     end
     
   end
