@@ -10,8 +10,7 @@ module Koinz
     
     use OmniAuth::Builder do
       # For additional provider examples please look at 'omni_auth.rb'
-      #provider :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET'], {}
-      provider :google_oauth2, "83174160117-uov86938g2j6qhunuvm5gjceuvgqejak.apps.googleusercontent.com", "l3BL8-kQKuAqqPRQtw8sZIAU", {}
+      provider :google_oauth2, ENV['KOINZ_GOOGLE_KEY'], ENV['KOINZ_GOOGLE_SECRET'], {}
     end
 
     ##
