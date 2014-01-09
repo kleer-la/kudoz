@@ -6,8 +6,8 @@ class Transfer < ActiveRecord::Base
       
       Transfer.transaction do
         
-        origin.update_attributes!( :balance => origin.balance - self.ammount )
-        destination.update_attributes!( :balance => destination.balance + self.ammount )
+        origin.update_attributes!( :balance => origin.balance - ammount )
+        destination.update_attributes!( :balance => destination.balance + ammount )
         
       end
       
