@@ -20,7 +20,7 @@ Koinz::App.controllers :home do
   # end
   
   get :index, :map => '/' do
-    @transactions = Transfer.all
+    @transactions = Transfer.order("created_at DESC")
     @my_account = session[:my_account]
     
     if !@my_account.nil?

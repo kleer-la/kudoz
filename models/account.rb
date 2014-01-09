@@ -33,7 +33,7 @@ class Account < ActiveRecord::Base
     puts "self.withdrawals: #{self.withdrawals.count}"
     puts "self.deposits: #{self.deposits.count}"
     
-    (self.withdrawals | self.deposits).sort! {|a, b| a.created_at <=> b.created_at }
+    (self.withdrawals | self.deposits).sort! {|a, b| b.created_at <=> a.created_at }
   end
 
   def withdrawal( amount )
