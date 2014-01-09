@@ -1,0 +1,77 @@
+!!! Strict
+%html{html_attrs(I18n.locale)}
+	%head
+		%meta{:charset => "utf-8"}
+		%meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+		
+	%title
+		Koinz
+	= #stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/bootstrap.min.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/font-awesome.min.css", "data-turbolinks-track" => true
+	<!--[if IE 7]>
+	= stylesheet_link_tag    "/stylesheets/font-awesome-ie7.min.css"
+	<![endif]-->
+	= stylesheet_link_tag    "/stylesheets/ace-fonts.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/ace.min.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/ace-rtl.min.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/ace-skins.min.css", "data-turbolinks-track" => true
+	<!--[if lte IE 8]>
+	= stylesheet_link_tag    "/stylesheets/ace-ie.min.css"
+	<![endif]-->
+	= javascript_include_tag "/assets/ace/ace-extra.min.js", "data-turbolinks-track" => true
+	<!--[if lt IE 9]>
+	= javascript_include_tag "/assets/ace/html5shiv.js"
+	= javascript_include_tag "/assets/ace/respond.min.js"
+	<![endif]-->
+	= csrf_meta_tags
+	= yield_content :include
+
+- if @account.nil?
+	%body.login-layout
+		= yield
+- else
+	%body
+		.navbar.navbar-default#navbar
+			:javascript
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			.navbar-container#navbar-container
+				.navbar-header.pull-left
+					%a.navbar-brand{ :href => "#" }
+						%small
+							%i.icon-certificate
+							Koinz
+				.navbar-header.pull-right{ :role => "navigation" }
+					%ul.nav.ace-nav
+						%li.light-blue
+							%a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#"}
+								- if !@account.image_url.nil? && @account.image_url != ""
+									%img.nav-user-photo{ :src => @account.image_url }
+								%span.user-info
+									%small
+										Welcome,
+									= @account.name
+								%i.icon-caret-down
+							%ul.user-menu.pull-right.dropdown-menu.dropdown-yellow.dropdown-caret.dropdown-close
+								%li
+									%a{ :href => '/auth/log_out' , :rel => "nofollow" }
+										%i.icon-off
+										Sign out
+		= yield
+	
+	<!--[if !IE]> -->
+	:javascript
+		window.jQuery || document.write("<script src='/javascripts/jquery-2.0.3.min.js'>"+"<"+"/script>");
+	<!-- <![endif]-->
+	
+	<!--[if IE]>
+	:javascript
+		window.jQuery || document.write("<script src='/javascripts/jquery-1.10.2.min.js'>"+"<"+"/script>");
+	<![endif]-->
+	
+	= javascript_include_tag "/assets/jquery.rails.js"
+	
+	:javascript
+		if("ontouchend" in document) document.write("<script src='/javascripts/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+	= javascript_include_tag "/javascripts/bootstrap.min.js"
+	= javascript_include_tag "/javascripts/typeahead-bs2.min.js"

@@ -41,7 +41,7 @@ module Koinz
     # set :locale_path, 'bar'       # Set path for I18n translations (default your_apps_root_path/locale)
     # disable :sessions             # Disabled sessions by default (enable if needed)
     # disable :flash                # Disables sinatra-flash (enabled by default if Sinatra::Flash is defined)
-    # layout  :my_layout            # Layout can be in views/layouts/foo.ext or views/foo.ext (default :application)
+    layout  :application            # Layout can be in views/layouts/foo.ext or views/foo.ext (default :application)
     #
 
     ##
@@ -64,27 +64,15 @@ module Koinz
     #     render 'errors/505'
     #   end
     #
-    
-    get '/' do
-      account = session[:account]
-    
-      if account.nil?
-        "<a href='/auth/google_oauth2'>Sign in with Google</a>"
-      else
-        "Cuenta: #{account.name}<br/>" +
-        "Saldo: #{account.balance} Koinz<br/>" +
-        "<hr/>" +
-        "<a href='/auth/log_out'>Log Out</a>"
-      end
-    end
 
     get '/auth/:provider/callback' do
       
       provider = params[:provider]
       uid = request.env['omniauth.auth']["uid"]
       name = request.env['omniauth.auth']["info"]["name"]
+      image_url = request.env['omniauth.auth']["info"]["image"]
       
-      account = Account.find_for_omniouth( provider, uid, name )
+      account = Account.find_for_omniouth( provider, uid, name, image_url )
       
       if !account.nil?
         session[:account] = account

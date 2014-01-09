@@ -1,0 +1,31 @@
+- if @account.nil?
+	.main-container
+		.main-content
+			.row
+				.col-sm-10.col-sm-offset-1
+					.login-container
+						.center
+							%h1
+								%i.icon-certificate.white
+									%span.white
+										Koinz
+						.space-6
+
+						.position-relative
+							.login-box.visible.widget-box.no-border
+								.widget-body
+									.widget-main
+										.social-or-login.center
+											%span.bigger-110
+												Login Using
+										.social-login.center
+											%a.btn.btn-danger{ :href => '/auth/google_oauth2' }
+												%i.icon-google-plus
+- else
+	%p
+		Cuenta: 
+		= @account.name
+		%br
+		Saldo: 
+		= @account.balance
+		Koinz
