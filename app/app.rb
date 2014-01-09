@@ -68,14 +68,12 @@ module Koinz
     get '/auth/:provider/callback' do
       
       provider = params[:provider]
-      uid = request.env['omniauth.auth']["uid"]
-      name = request.env['omniauth.auth']["info"]["name"]
-      image_url = request.env['omniauth.auth']["info"]["image"]
+      auth = request.env['omniauth.auth']
       
-      account = Account.find_for_omniouth( provider, uid, name, image_url )
+      account = Account.find_for_omniouth( provider, auth )
       
       if !account.nil?
-        session[:account] = account
+        session[:my_account] = account
       end
       
       redirect_to "/"
@@ -88,7 +86,7 @@ module Koinz
     end
     
     get '/auth/log_out' do
-      session[:account] = nil
+      session[:my_account] = nil
       redirect_to "/"
     end
     

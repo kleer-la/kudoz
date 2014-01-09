@@ -20,7 +20,12 @@ Koinz::App.controllers :home do
   # end
   
   get :index, :map => '/' do
-    @account = session[:account]
+    @transactions = Transfer.all
+    @my_account = session[:my_account]
+    
+    if !@my_account.nil?
+      @accounts = Account.order("balance DESC")
+    end
     
     render 'home/index', :layout => :application
   end

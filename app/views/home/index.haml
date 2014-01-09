@@ -1,31 +1,76 @@
-- if @account.nil?
-	.main-container
-		.main-content
-			.row
-				.col-sm-10.col-sm-offset-1
-					.login-container
-						.center
-							%h1
-								%i.icon-certificate.white
-									%span.white
-										Koinz
-						.space-6
+- if @my_account.nil?
+	.main-content
+		.row
+			.col-sm-10.col-sm-offset-1
+				.login-container
+					.center
+						%h1
+							%i.icon-certificate.white
+								%span.white
+									Koinz
+					.space-6
 
-						.position-relative
-							.login-box.visible.widget-box.no-border
-								.widget-body
-									.widget-main
-										.social-or-login.center
-											%span.bigger-110
-												Login Using
-										.social-login.center
-											%a.btn.btn-danger{ :href => '/auth/google_oauth2' }
-												%i.icon-google-plus
+					.position-relative
+						.login-box.visible.widget-box.no-border
+							.widget-body
+								.widget-main
+									.social-or-login.center
+										%span.bigger-110
+											Login Using
+									.social-login.center
+										%a.btn.btn-danger{ :href => '/auth/google_oauth2' }
+											%i.icon-google-plus
 - else
-	%p
-		Cuenta: 
-		= @account.name
-		%br
-		Saldo: 
-		= @account.balance
-		Koinz
+	.main-content
+		.breadcrumbs#breadcrumbs
+			%ul.breadcrumb
+				%li.active
+					%i.icon-home.home-icon
+					%a{ :href => "/" }
+						Home
+				%li.active
+					Dashboard
+		.page-content
+			.page-header
+				%h1 Dashboard
+			.row
+				.col-xs-12
+			.row
+				.col-sm-6
+					.widget-box
+						.widget-header
+							%h4.lighter.small
+								%i.icon-user.blue
+								Transaction History
+						.widget-body
+							.widget-main.padding-8
+								.profile-feed#profile-feed-1
+									- @transactions.each do |transaction|
+										.profile-activity.clearfix
+											%div
+												%img.pull-right{ :src => transaction.destination.image_url }
+												%i.pull-right.thumbicon.icon-share-alt.btn-info.no-hover
+												%img.pull-left{ :src => transaction.origin.image_url }
+												= "#{transaction.ammount} Koinz. "
+												%br
+												= "'#{transaction.message}' - #{transaction.origin.name}"
+				.col-sm-6
+					.widget-box
+						.widget-header
+							%h4.lighter.small
+								%i.icon-user.blue
+								Accounts
+						.widget-body
+							.widget-main.padding-4
+								.clearfix
+									- @accounts.each do |account|
+										.itemdiv.memberdiv
+											.user
+												%img{ :alt => account.name , :src => account.image_url }
+											.body
+												.name
+													%a{ :href => "/accounts/#{account.id}/show" }
+														= account.name
+												.time 
+													%i.icon-money
+													= account.balance

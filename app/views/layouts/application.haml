@@ -16,28 +16,28 @@
 	= stylesheet_link_tag    "/stylesheets/ace.min.css", "data-turbolinks-track" => true
 	= stylesheet_link_tag    "/stylesheets/ace-rtl.min.css", "data-turbolinks-track" => true
 	= stylesheet_link_tag    "/stylesheets/ace-skins.min.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/jquery-ui-1.10.3.full.min.css", "data-turbolinks-track" => true
 	<!--[if lte IE 8]>
 	= stylesheet_link_tag    "/stylesheets/ace-ie.min.css"
 	<![endif]-->
-	= javascript_include_tag "/assets/ace/ace-extra.min.js", "data-turbolinks-track" => true
+	= javascript_include_tag "/javascripts/ace-extra.min.js", "data-turbolinks-track" => true
 	<!--[if lt IE 9]>
-	= javascript_include_tag "/assets/ace/html5shiv.js"
-	= javascript_include_tag "/assets/ace/respond.min.js"
+	= javascript_include_tag "/javascripts/html5shiv.js"
+	= javascript_include_tag "/javascripts/respond.min.js"
 	<![endif]-->
 	= csrf_meta_tags
 	= yield_content :include
 
-- if @account.nil?
+- if @my_account.nil?
 	%body.login-layout
-		= yield
+		.main-container
+			= yield
 - else
 	%body
 		.navbar.navbar-default#navbar
-			:javascript
-				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
 			.navbar-container#navbar-container
 				.navbar-header.pull-left
-					%a.navbar-brand{ :href => "#" }
+					%a.navbar-brand{ :href => "/" }
 						%small
 							%i.icon-certificate
 							Koinz
@@ -45,19 +45,32 @@
 					%ul.nav.ace-nav
 						%li.light-blue
 							%a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#"}
-								- if !@account.image_url.nil? && @account.image_url != ""
-									%img.nav-user-photo{ :src => @account.image_url }
+								- if !@my_account.image_url.nil? && @my_account.image_url != ""
+									%img.nav-user-photo{ :src => @my_account.image_url }
 								%span.user-info
 									%small
 										Welcome,
-									= @account.name
+									= @my_account.name
 								%i.icon-caret-down
 							%ul.user-menu.pull-right.dropdown-menu.dropdown-yellow.dropdown-caret.dropdown-close
 								%li
 									%a{ :href => '/auth/log_out' , :rel => "nofollow" }
 										%i.icon-off
 										Sign out
-		= yield
+		.main-container#main-container
+			.main-container-inner
+				%a.menu-toggler#menu-toggler{ :href => "#" }
+					%span.menu-text
+				.sidebar#sidebar
+					%ul.nav.nav-list
+						%li.active
+							%a{ :href => "/" }
+								%i.icon-dashboard
+								%span.menu-text
+									Dashboard
+					.sidebar-collapse#sidebar-collapse
+						%i.icon-double-angle-left{ "data-icon1" => "icon-double-angle-left", "data-icon2" => "icon-double-angle-right" }
+				= yield
 	
 	<!--[if !IE]> -->
 	:javascript
@@ -69,9 +82,14 @@
 		window.jQuery || document.write("<script src='/javascripts/jquery-1.10.2.min.js'>"+"<"+"/script>");
 	<![endif]-->
 	
-	= javascript_include_tag "/assets/jquery.rails.js"
-	
 	:javascript
 		if("ontouchend" in document) document.write("<script src='/javascripts/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 	= javascript_include_tag "/javascripts/bootstrap.min.js"
 	= javascript_include_tag "/javascripts/typeahead-bs2.min.js"
+	
+	<!--[if lte IE 8]>
+	= javascript_include_tag "/javascripts/excanvas.min.js"
+	<![endif]-->
+	
+	= javascript_include_tag "/javascripts/ace-elements.min.js"
+	= javascript_include_tag "/javascripts/ace.min.js"

@@ -20,7 +20,29 @@ Koinz::App.controllers :accounts do
   # end
   
   get :show, :map => '/accounts/:id/show' do
-    "Hello World"
+    @my_account = session[:my_account]
+    
+    @account = Account.find_by_id( params[:id] )
+    
+    render 'accounts/show'
   end
 
+  put :deposit, :map => '/accounts/:id/deposit' do
+    
+    @my_account = session[:my_account]
+    @account = Account.find_by_id( params[:id] )
+    
+    if !@account.nil?
+    
+      @transfer = Transfer.new(params[:transfer])
+      @transfer.origin = @my_account
+      @transfer.destination = @account
+      @transfer.save!
+      
+      @transfer.execute!
+    
+    end
+    
+    render 'accounts/show'
+  end
 end

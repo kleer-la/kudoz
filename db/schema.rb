@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 4) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -21,6 +21,16 @@ ActiveRecord::Schema.define(:version => 2) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "image_url"
+    t.string   "email"
+  end
+
+  create_table "transfers", :force => true do |t|
+    t.integer  "origin_account_id"
+    t.integer  "destination_account_id"
+    t.string   "message"
+    t.integer  "ammount"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
   end
 
 end
