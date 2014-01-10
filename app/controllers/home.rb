@@ -21,7 +21,7 @@ Koinz::App.controllers :home do
   
   get :index, :map => '/' do
     @transactions = Transfer.order("created_at DESC")
-    @my_account = session[:my_account]
+    @my_account = Account.find_by_id( session[:my_account_id] )
     
     if !@my_account.nil?
       @accounts = Account.order("balance DESC")

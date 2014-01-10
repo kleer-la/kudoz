@@ -73,7 +73,7 @@ module Koinz
       account = Account.find_for_omniouth( provider, auth )
       
       if !account.nil?
-        session[:my_account] = account
+        session[:my_account_id] = account.id
       end
       
       redirect_to "/"
@@ -86,7 +86,7 @@ module Koinz
     end
     
     get '/auth/log_out' do
-      session[:my_account] = nil
+      session[:my_account_id] = nil
       redirect_to "/"
     end
     

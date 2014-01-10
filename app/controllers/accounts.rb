@@ -20,7 +20,7 @@ Koinz::App.controllers :accounts do
   # end
   
   get :show, :map => '/accounts/:id/show' do
-    @my_account = session[:my_account]
+    @my_account = Account.find_by_id( session[:my_account_id] )
     
     @account = Account.find_by_id( params[:id] )
     
@@ -29,7 +29,8 @@ Koinz::App.controllers :accounts do
 
   put :deposit, :map => '/accounts/:id/deposit' do
     
-    @my_account = session[:my_account]
+    @my_account = Account.find_by_id( session[:my_account_id] )
+    
     @account = Account.find_by_id( params[:id] )
     
     if !@account.nil?
