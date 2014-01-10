@@ -13,6 +13,15 @@ module Koinz
       provider :google_oauth2, ENV['KOINZ_GOOGLE_KEY'], ENV['KOINZ_GOOGLE_SECRET'], {}
     end
 
+    set :delivery_method, :smtp => { 
+      :address              => "smtp.mandrillapp.com",
+      :port                 => 587,
+      :user_name            => ENV["KOINZ_SMTP_USERNAME"],
+      :password             => ENV["KOINZ_SMTP_PASSWORD_KEY"],
+      :authentication       => :plain,
+      :enable_starttls_auto => true  
+    }
+    
     ##
     # Caching support.
     #

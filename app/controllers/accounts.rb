@@ -41,6 +41,13 @@ Koinz::App.controllers :accounts do
       @transfer.save!
       
       @transfer.execute!
+      
+      email(
+        :from => "koinz@kleer.la", 
+        :to => @transfer.destination.email, 
+        :subject => "Koinz deposit from #{@transfer.origin.name}!", 
+        :body=>"You've received #{@transfer.ammount} Koinz from #{@transfer.origin.name}: '#{@transfer.message}'"
+      )
     
     end
     
