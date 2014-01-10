@@ -51,6 +51,11 @@
 												= "#{transaction.ammount} Koinz. "
 												%br
 												= "'#{transaction.message}' - #{transaction.origin.name}"
+												%br
+												%br
+												%small.pull-right
+													%em
+														= distance_of_time_in_words( transaction.created_at, Time.now ) + " ago."
 				.col-sm-6
 					.widget-box
 						.widget-header
