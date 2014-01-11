@@ -1,4 +1,4 @@
-module Koinz
+module Kudoz
   class App < Padrino::Application
     register SassInitializer
     use ActiveRecord::ConnectionAdapters::ConnectionManagement
@@ -10,14 +10,14 @@ module Koinz
     
     use OmniAuth::Builder do
       # For additional provider examples please look at 'omni_auth.rb'
-      provider :google_oauth2, ENV['KOINZ_GOOGLE_KEY'], ENV['KOINZ_GOOGLE_SECRET'], {}
+      provider :google_oauth2, ENV['KUDOZ_GOOGLE_KEY'], ENV['KUDOZ_GOOGLE_SECRET'], {}
     end
 
     set :delivery_method, :smtp => { 
       :address              => "smtp.mandrillapp.com",
       :port                 => 587,
-      :user_name            => ENV["KOINZ_SMTP_USERNAME"],
-      :password             => ENV["KOINZ_SMTP_PASSWORD_KEY"],
+      :user_name            => ENV["KUDOZ_SMTP_USERNAME"],
+      :password             => ENV["KUDOZ_SMTP_PASSWORD_KEY"],
       :authentication       => :plain,
       :enable_starttls_auto => true  
     }

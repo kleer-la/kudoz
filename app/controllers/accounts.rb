@@ -1,4 +1,4 @@
-Koinz::App.controllers :accounts do
+Kudoz::App.controllers :accounts do
   
   # get :index, :map => '/foo/bar' do
   #   session[:foo] = 'bar'
