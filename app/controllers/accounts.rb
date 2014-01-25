@@ -40,14 +40,19 @@ Kudoz::App.controllers :accounts do
       @transfer.destination = @account
       @transfer.save!
       
-      @transfer.execute!
+      begin
+        @transfer.execute!
       
-      email(
-        :from => "koinz@kleer.la", 
-        :to => @transfer.destination.email, 
-        :subject => "Koinz deposit from #{@transfer.origin.name}!", 
-        :body=>"You've received #{@transfer.ammount} Koinz from #{@transfer.origin.name}: '#{@transfer.message}'"
-      )
+        email(
+          :from => "koinz@kleer.la", 
+          :to => @transfer.destination.email, 
+          :subject => "Koinz deposit from #{@transfer.origin.name}!", 
+          :body=>"You've received #{@transfer.ammount} Koinz from #{@transfer.origin.name}: '#{@transfer.message}'"
+        )
+        
+      rescue Exception => e
+          puts e.message
+      end
     
     end
     

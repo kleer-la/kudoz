@@ -1,0 +1,33 @@
+!!! Strict
+%html{html_attrs(I18n.locale)}
+	%head
+		%meta{:charset => "utf-8"}
+		%meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+		
+	%title
+		Kudoz
+	= #stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/bootstrap.min.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/font-awesome.min.css", "data-turbolinks-track" => true
+	<!--[if IE 7]>
+	= stylesheet_link_tag    "/stylesheets/font-awesome-ie7.min.css"
+	<![endif]-->
+	= stylesheet_link_tag    "/stylesheets/ace-fonts.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/ace.min.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/ace-rtl.min.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/ace-skins.min.css", "data-turbolinks-track" => true
+	= stylesheet_link_tag    "/stylesheets/jquery-ui-1.10.3.full.min.css", "data-turbolinks-track" => true
+	<!--[if lte IE 8]>
+	= stylesheet_link_tag    "/stylesheets/ace-ie.min.css"
+	<![endif]-->
+	= javascript_include_tag "/javascripts/ace-extra.min.js", "data-turbolinks-track" => true
+	<!--[if lt IE 9]>
+	= javascript_include_tag "/javascripts/html5shiv.js"
+	= javascript_include_tag "/javascripts/respond.min.js"
+	<![endif]-->
+	= csrf_meta_tags
+	= yield_content :include
+
+%body.login-layout
+	.main-container
+		= yield

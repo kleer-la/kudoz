@@ -4,10 +4,16 @@ class Transfer < ActiveRecord::Base
     
     def execute!
       
-      Transfer.transaction do
+      if origin.team.id != destination.team.id
+        raise 'Transfers are allowed only between accounts of the same team.'
+      else
         
-        origin.update_attributes!( :balance => origin.balance - ammount )
-        destination.update_attributes!( :balance => destination.balance + ammount )
+        Transfer.transaction do
+        
+          origin.update_attributes!( :balance => origin.balance - ammount )
+          destination.update_attributes!( :balance => destination.balance + ammount )
+        
+        end
         
       end
       
