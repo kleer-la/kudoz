@@ -20,7 +20,7 @@ Kudoz::App.controllers :accounts do
   # end
   
   get :show, :map => '/accounts/:id/show' do
-    @my_account = Account.find_by_id( session[:my_account_id] )
+    @my_user = User.find_by_id( session[:my_user_id] )
     
     @account = Account.find_by_id( params[:id] )
     
@@ -29,7 +29,7 @@ Kudoz::App.controllers :accounts do
 
   put :deposit, :map => '/accounts/:id/deposit' do
     
-    @my_account = Account.find_by_id( session[:my_account_id] )
+    @my_user = User.find_by_id( session[:my_user] )
     
     @account = Account.find_by_id( params[:id] )
     

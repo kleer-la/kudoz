@@ -28,7 +28,7 @@
 	= csrf_meta_tags
 	= yield_content :include
 
-- if @my_account.nil?
+- if @my_user.nil?
 	%body.login-layout
 		.main-container
 			= yield
@@ -45,12 +45,12 @@
 					%ul.nav.ace-nav
 						%li.light-blue
 							%a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#"}
-								- if !@my_account.image_url.nil? && @my_account.image_url != ""
-									%img.nav-user-photo{ :src => @my_account.image_url }
+								- if !@my_user.image_url.nil? && @my_user.image_url != ""
+									%img.nav-user-photo{ :src => @my_user.image_url }
 								%span.user-info
 									%small
 										Welcome,
-									= @my_account.name
+									= @my_user.name
 								%i.icon-caret-down
 							%ul.user-menu.pull-right.dropdown-menu.dropdown-yellow.dropdown-caret.dropdown-close
 								%li

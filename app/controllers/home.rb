@@ -21,9 +21,9 @@ Kudoz::App.controllers :home do
   
   get :index, :map => '/' do
     @transactions = Transfer.order("created_at DESC")
-    @my_account = Account.find_by_id( session[:my_account_id] )
+    @my_user = User.find_by_id( session[:my_user_id] )
     
-    if !@my_account.nil?
+    if !@my_user.nil?
       @accounts = Account.order("balance DESC")
     end
     

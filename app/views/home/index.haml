@@ -1,4 +1,4 @@
-- if @my_account.nil?
+- if @my_user.nil?
 	.main-content
 		.row
 			.col-sm-10.col-sm-offset-1
@@ -68,11 +68,11 @@
 									- @accounts.each do |account|
 										.itemdiv.memberdiv
 											.user
-												%img{ :alt => account.name , :src => account.image_url }
+												%img{ :alt => account.user.name , :src => account.user.image_url }
 											.body
 												.name
 													%a{ :href => "/accounts/#{account.id}/show" }
-														= account.name
+														= account.user.name
 												.time 
 													%i.icon-money
 													= account.balance

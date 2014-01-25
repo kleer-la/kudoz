@@ -16,18 +16,18 @@
 					.col-xs-12.col-sm-3.center
 						%div
 							%span.profile-picture.thumbnail
-								%img{ :src => @account.image_url }
+								%img{ :src => @account.user.image_url }
 							.space-4
 							.width-80.label.label-info.label-xlg.arrowed-in.arrowed-in-right
 								.inline.position-relative
 									%span.white
-										= @account.name
+										= @account.user.name
 							.space-6
 							.profile-contact-info
 								.profile-contact-links.align-left
 									.btn.btn-link
 										%i.icon-envelope.bigger-120.pink
-										= @account.email 
+										= @account.user.email 
 					.col-xs-12.col-sm-9
 						.clearfix
 							.pull-left
@@ -39,14 +39,14 @@
 										%i.icon-money
 										Koinz	
 							.pull-right
-								- if @account.id != @my_account.id
+								- if @account.user.id != @my_user.id
 									%a.btn.btn-app.btn-sm.btn-info#id-btn-deposit
 										%i.icon-inbox.bigger-200
 										Deposit
 									.hide#dialog-deposit
 										%p
 											Select the amount of Koinz you want to transfer from your account to 
-											= @account.name + "."
+											= @account.user.name + "."
 										-form_for :transfer, url(:accounts, :deposit, :id => @account.id), :method => :put, :id => "deposit-form" do |f|
 											= f.text_field :ammount, :value => 10
 											%span.ui-slider-green#deposit-slider
@@ -68,9 +68,9 @@
 											- if transaction.origin.id == @account.id
 												.profile-activity.clearfix
 													%div
-														%img.pull-right{ :src => transaction.destination.image_url }
+														%img.pull-right{ :src => transaction.destination.user.image_url }
 														%i.pull-right.thumbicon.icon-share-alt.btn-info.no-hover
-														%img.pull-left{ :src => transaction.origin.image_url }
+														%img.pull-left{ :src => transaction.origin.user.image_url }
 														= "- #{transaction.ammount} Kudoz. "
 														%br
 														= "'#{transaction.message}' - #{transaction.origin.name}"
@@ -81,7 +81,7 @@
 											- else
 												.profile-activity.clearfix
 													%div
-														%img.pull-left{ :src => transaction.origin.image_url }
+														%img.pull-left{ :src => transaction.origin.user.image_url }
 														%i.pull-right.thumbicon.icon-inbox.btn-success.no-hover
 														= "+ #{transaction.ammount} Kudoz. "
 														%br
@@ -118,7 +118,7 @@
 				value: 10,
 				range: "min",
 				min: 1,
-				max: #{@my_account.balance},
+				max: #{@my_user.accounts.first.balance},
 				animate: true,
 				slide: function( event, ui ) { $( "#transfer_ammount" ).val( ui.value ); }
 		});

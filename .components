@@ -5,5 +5,5 @@
 :script: jquery
 :renderer: haml
 :stylesheet: sass
-:namespace: Koinz
+:namespace: Kudoz
 :migration_format: number
