@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Transfer do
+  
   before(:each) do
     team = Team.create( name: "Equipo de Testing" )
     @u1 = User.create( accounts: [ Account.create( team: team ) ] )

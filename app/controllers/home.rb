@@ -20,11 +20,12 @@ Kudoz::App.controllers :home do
   # end
   
   get :index, :map => '/' do
-    @transactions = Transfer.order("created_at DESC")
+
     @my_user = User.find_by_id( session[:my_user_id] )
     
     if !@my_user.nil?
-      @accounts = Account.order("balance DESC")
+      @teams = @my_user.teams
+      @visible_transactions = @my_user.visible_transactions
     end
     
     render 'home/index', :layout => :application

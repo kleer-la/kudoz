@@ -9,6 +9,14 @@ class User < ActiveRecord::Base
     "#{self.fname} #{self.lname}"
   end
   
+  def visible_transactions
+    visible_transactions = Array.new
+    self.accounts.each do |account|
+      visible_transactions |= account.transactions
+    end
+    visible_transactions.sort! {|a, b| b.created_at <=> a.created_at }
+  end
+  
   def self.find_for_omniouth(provider, auth)
     
     uid = auth["uid"]

@@ -19,21 +19,22 @@ Kudoz::App.controllers :accounts do
   #   'Hello world!'
   # end
   
-  get :show, :map => '/accounts/:id/show' do
+  get :show, :map => '/teams/:team_id/accounts/:id/show' do
     @my_user = User.find_by_id( session[:my_user_id] )
-    
+    @team = Team.find_by_id( params[:team_id] )
     @account = Account.find_by_id( params[:id] )
     
     render 'accounts/show'
   end
 
-  put :deposit, :map => '/accounts/:id/deposit' do
+  put :deposit, :map => '/teams/:team_id/accounts/:id/deposit' do
     
-    @my_user = User.find_by_id( session[:my_user] )
-    
+    @my_user = User.find_by_id( session[:my_user_id] )
+    @team = Team.find_by_id( params[:team_id] )
     @account = Account.find_by_id( params[:id] )
+    @my_account = @my_user.accounts.select { |account| account.team.id == @team.id }.first
     
-    if !@account.nil?
+    if !@account.nil? && !@my_account.nil?
     
       @transfer = Transfer.new(params[:transfer])
       @transfer.origin = @my_account
@@ -45,9 +46,9 @@ Kudoz::App.controllers :accounts do
       
         email(
           :from => "koinz@kleer.la", 
-          :to => @transfer.destination.email, 
-          :subject => "Koinz deposit from #{@transfer.origin.name}!", 
-          :body=>"You've received #{@transfer.ammount} Koinz from #{@transfer.origin.name}: '#{@transfer.message}'"
+          :to => @transfer.destination.user.email, 
+          :subject => "Koinz deposit from #{@transfer.origin.user.name}!", 
+          :body=>"You've received #{@transfer.ammount} Koinz from #{@transfer.origin.user.name}: '#{@transfer.message}'"
         )
         
       rescue Exception => e

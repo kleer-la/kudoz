@@ -9,9 +9,6 @@ class Account < ActiveRecord::Base
   before_create :set_default_values
   
   def transactions
-    puts "self.withdrawals: #{self.withdrawals.count}"
-    puts "self.deposits: #{self.deposits.count}"
-    
     (withdrawals | deposits).sort! {|a, b| b.created_at <=> a.created_at }
   end
   

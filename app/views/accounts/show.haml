@@ -6,10 +6,15 @@
 				%a{ :href => "/" }
 					Dashboard
 			%li.active
-				Account Details
+				%i.icon-group
+				%a{ :href => "/teams/#{@team.id}" }
+					= @team.name
+			%li.active
+				%i.icon-inbox
+				= "#{@account.user.fname}'s Account Details"
 	.page-content
 		.page-header
-			%h1 Account Details
+			%h1= "#{@account.user.fname}'s Account Details"
 		.row
 			.col-xs-12
 				.user-profile.row
@@ -36,19 +41,19 @@
 										= @account.balance
 									%br
 									%span.line-height-1.bigger-90
-										%i.icon-money
-										Koinz	
+										%i.icon-thumbs-up-alt
+										Kudoz	
 							.pull-right
 								- if @account.user.id != @my_user.id
 									%a.btn.btn-app.btn-sm.btn-info#id-btn-deposit
-										%i.icon-inbox.bigger-200
+										%i.icon-download.bigger-200
 										Deposit
 									.hide#dialog-deposit
 										%p
-											Select the amount of Koinz you want to transfer from your account to 
+											Select the amount of Kudoz you want to transfer from your account to 
 											= @account.user.name + "."
-										-form_for :transfer, url(:accounts, :deposit, :id => @account.id), :method => :put, :id => "deposit-form" do |f|
-											= f.text_field :ammount, :value => 10
+										-form_for :transfer, "/teams/#{@team.id}/accounts/#{@account.id}/deposit", :method => :put, :id => "deposit-form" do |f|
+											= f.text_field :ammount, :value => 10, :class => "col-xs-3"
 											%span.ui-slider-green#deposit-slider
 											%br
 											%br
@@ -73,7 +78,7 @@
 														%img.pull-left{ :src => transaction.origin.user.image_url }
 														= "- #{transaction.ammount} Kudoz. "
 														%br
-														= "'#{transaction.message}' - #{transaction.origin.name}"
+														= "'#{transaction.message}' - #{transaction.origin.user.name}"
 														%br
 														%small
 															%em
@@ -82,10 +87,10 @@
 												.profile-activity.clearfix
 													%div
 														%img.pull-left{ :src => transaction.origin.user.image_url }
-														%i.pull-right.thumbicon.icon-inbox.btn-success.no-hover
+														%i.pull-right.thumbicon.icon-download.btn-success.no-hover
 														= "+ #{transaction.ammount} Kudoz. "
 														%br
-														= "'#{transaction.message}' - #{transaction.origin.name}"
+														= "'#{transaction.message}' - #{transaction.origin.user.name}"
 														%br
 														%small
 															%em

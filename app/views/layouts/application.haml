@@ -31,7 +31,27 @@
 - if @my_user.nil?
 	%body.login-layout
 		.main-container
-			= yield
+			.main-content
+				.row
+					.col-sm-10.col-sm-offset-1
+						.login-container
+							.center
+								%h1
+									%i.icon-thumbs-up-alt.white
+										%span.white
+											Kudoz.io
+							.space-6
+
+							.position-relative
+								.login-box.visible.widget-box.no-border
+									.widget-body
+										.widget-main
+											.social-or-login.center
+												%span.bigger-110
+													Login Using
+											.social-login.center
+												%a.btn.btn-danger{ :href => '/auth/google_oauth2' }
+													%i.icon-google-plus
 - else
 	%body
 		.navbar.navbar-default#navbar
@@ -39,7 +59,7 @@
 				.navbar-header.pull-left
 					%a.navbar-brand{ :href => "/" }
 						%small
-							%i.icon-certificate
+							%i.icon-thumbs-up-alt
 							Kudoz.io
 				.navbar-header.pull-right{ :role => "navigation" }
 					%ul.nav.ace-nav
@@ -71,6 +91,7 @@
 					.sidebar-collapse#sidebar-collapse
 						%i.icon-double-angle-left{ "data-icon1" => "icon-double-angle-left", "data-icon2" => "icon-double-angle-right" }
 				= yield
+				= partial 'common/uservoice'
 	
 	<!--[if !IE]> -->
 	:javascript

@@ -4,7 +4,11 @@
 			%ul.breadcrumb
 				%li.active
 					%i.icon-home.home-icon
-					Dashboard
+					%a{ :href => "/" }
+						Dashboard
+				%li.active
+					%i.icon-group
+					= @team.name
 		.page-content
 			.page-header
 				%h1 Dashboard
@@ -16,11 +20,12 @@
 						.widget-header
 							%h4.lighter.small
 								%i.icon-user.blue
-								Transaction History (All teams)
+								Transaction History
+								= "(#{@team.name})"
 						.widget-body
 							.widget-main.padding-8
 								.profile-feed#profile-feed-1
-									- @visible_transactions.each do |transaction|
+									- @team.transactions.each do |transaction|
 										.profile-activity.clearfix
 											%div
 												%img.pull-right{ :src => transaction.destination.user.image_url }
@@ -36,25 +41,23 @@
 													%em
 														= distance_of_time_in_words( transaction.created_at, Time.now ) + " ago."
 				.col-sm-6
-					- @teams.each do |team|	
-						.widget-box
-							.widget-header
-								%h4.lighter.small
-									%i.icon-group.blue
-									%a{ :href => "/teams/#{team.id}" }
-										= team.name
-							.widget-body
-								.widget-main.padding-4
-									.clearfix
-										- team.accounts.sort! {|a, b| b.balance <=> a.balance }.each do |account|
-											.itemdiv.memberdiv
-												.user
-													%img{ :alt => account.user.name , :src => account.user.image_url }
-												.body
-													.name
-														%a{ :href => "/teams/#{team.id}/accounts/#{account.id}/show" }
-															= account.user.name
-													.time 
-														%i.icon-thumbs-up-alt
-														= account.balance
-						&nbsp;
+					.widget-box
+						.widget-header
+							%h4.lighter.small
+								%i.icon-group.blue
+								= @team.name
+						.widget-body
+							.widget-main.padding-4
+								.clearfix
+									- @team.accounts.sort! {|a, b| b.balance <=> a.balance }.each do |account|
+										.itemdiv.memberdiv
+											.user
+												%img{ :alt => account.user.name , :src => account.user.image_url }
+											.body
+												.name
+													%a{ :href => "/teams/#{@team.id}/accounts/#{account.id}/show" }
+														= account.user.name
+												.time 
+													%i.icon-thumbs-up-alt
+													= account.balance
+					&nbsp;

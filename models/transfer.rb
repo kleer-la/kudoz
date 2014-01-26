@@ -12,6 +12,7 @@ class Transfer < ActiveRecord::Base
         
           origin.update_attributes!( :balance => origin.balance - ammount )
           destination.update_attributes!( :balance => destination.balance + ammount )
+          self.save!
         
         end
         
