@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
     visible_transactions.sort! {|a, b| b.created_at <=> a.created_at }
   end
   
-  def self.find_for_omniouth(provider, auth, invite_uuid)
+  def self.find_for_omniouth(provider, auth, invite=nil)
     
     uid = auth["uid"]
     fname = auth["info"]["first_name"]
@@ -43,15 +43,12 @@ class User < ActiveRecord::Base
     
     end
 
-    if !invite_uuid.nil?
-      invite = Invite.where("uuid = ?", invite_uuid).first
-      if !invite.nil?
-        user.accounts << Account.create( balance: 100, team: invite.team )
-        user.needs_initialization = false
-        user.save!
-        
-        invite.update_attributes!( :acepted => true )
-      end
+    if !invite.nil?
+      user.accounts << Account.create( balance: 100, team: invite.team )
+      user.needs_initialization = false
+      user.save!
+      
+      invite.update_attributes!( :acepted => true )
     elsif user.accounts.size == 0
       user.accounts << Account.create( balance: 100, :team => Team.create( name: "My Team" ) )
       user.needs_initialization = true

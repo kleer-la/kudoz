@@ -9,4 +9,13 @@ Kudoz::App.mailer :team do
     render 'team/transfer_email'
   end
 
+  email :new_joiner_email do |new_joiner_account, account, hostname|
+    from 'Kudoz.io <noreply@kudoz.io>'
+    to account.user.email
+    subject "Welcome #{new_joiner_account.user.fname} to #{account.team.name} team!"
+    locals :new_joiner_account => new_joiner_account, :account => account, :hostname => hostname
+    provides :plain, :html
+    render 'team/new_joiner_email'
+  end
+
 end
