@@ -37,13 +37,7 @@ class User < ActiveRecord::Base
                   fname: fname,
                   lname: lname,
                   image_url: image_url,
-                  email: email,
-                  accounts: [ Account.create( balance: 100 ) ],
-                  needs_initialization: true )
-        
-        if invite_uuid.nil?
-          user.accounts.first.update_attributes!( :team => Team.create( name: "My Team" ) )
-        end
+                  email: email)
 
       end
     
@@ -58,6 +52,10 @@ class User < ActiveRecord::Base
         
         invite.update_attributes!( :acepted => true )
       end
+    elsif user.accounts.size == 0
+      user.accounts << Account.create( balance: 100, :team => Team.create( name: "My Team" ) )
+      user.needs_initialization = true
+      user.save!
     end
     
     user
