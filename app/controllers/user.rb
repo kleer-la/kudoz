@@ -5,6 +5,8 @@ Kudoz::App.controllers :user do
      provider = params[:provider]
      auth = request.env['omniauth.auth']
      
+     puts request.env['omniauth.params'].inspect
+     
      user = User.find_for_omniouth( provider, auth )
      
      if !user.nil?

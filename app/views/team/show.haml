@@ -1,5 +1,5 @@
 - if !@my_user.nil?
-	.main-content
+	.main-content{ :style => "margin-left: 0;" }
 		.breadcrumbs#breadcrumbs
 			%ul.breadcrumb
 				%li.active
@@ -16,50 +16,126 @@
 					= @team.name
 			.row
 				.col-xs-12
-			.row
-				.col-sm-6
-					.widget-box
-						.widget-header
-							%h4.lighter.small
-								%i.icon-user.blue
-								Transaction History
-								= "(#{@team.name})"
-						.widget-body
-							.widget-main.padding-8
-								.profile-feed#profile-feed-1
-									- @team.transactions.each do |transaction|
-										.profile-activity.clearfix
-											%div
-												%img.pull-right{ :src => transaction.destination.user.image_url }
-												%i.pull-right.thumbicon.icon-share-alt.btn-info.no-hover
-												%img.pull-left{ :src => transaction.origin.user.image_url }
-												= "#{transaction.ammount} Kudoz. "
-												%br
-												%em
-													= "'#{transaction.message}'"
-												%br
-												= "- #{transaction.origin.user.name} (#{transaction.origin.team.name})"
-												%small.pull-right
+					.col-xs-12.col-sm-3
+						.widget-box
+							.widget-header
+								%h4.lighter.small
+									%i.icon-flag-checkered.blue
+									Kudoz ranking
+							.widget-body
+								.widget-main.padding-4
+									.clearfix
+										- @team.accounts.sort! {|a, b| b.balance <=> a.balance }.each do |account|
+											.itemdiv.memberdiv
+												.user
+													%img{ :alt => account.user.name , :src => account.user.image_url }
+												.body
+													.name
+														%a{ :href => "/teams/#{@team.id}/accounts/#{account.id}/show" }
+															= account.user.name
+													.time 
+														%i.icon-thumbs-up-alt
+														= account.balance
+					.col-xs-12.col-sm-9
+						.clearfix
+							.pull-right
+								%a.btn.btn-app.btn-sm.btn-info#id-btn-invite
+									%i.icon-smile.bigger-200
+									Invite
+								.hide#dialog-invite
+									%p
+										Use this form to invite new people to be part of your team. We only need his/her e-mail and a message from you. 
+									-form_for :invite, "/teams/#{@team.id}/invite", :method => :put, :id => "invite-form" do |f|
+										Email:
+										%br
+										= f.text_field :guest_email
+										%br
+										Message:
+										%br
+										= f.text_area:message, :maxlength => 140, :class => :limited
+						.hr.dotted
+						.widget-box.transparent
+							.widget-header.widget-header-small
+								%h4.blue.smaller
+									%i.icon-time.info
+									Transaction History for
+									%strong
+										= @team.name
+							.widget-body
+								.widget-main.padding-8
+									.profile-feed#profile-feed-1
+										- @team.transactions.each do |transaction|
+											.profile-activity.clearfix
+												%div
+													%img.pull-right{ :src => transaction.destination.user.image_url }
+													%i.pull-right.thumbicon.icon-share-alt.btn-info.no-hover
+													%img.pull-left{ :src => transaction.origin.user.image_url }
+													= "#{transaction.ammount} Kudoz. "
+													%br
 													%em
-														= distance_of_time_in_words( transaction.created_at, Time.now ) + " ago."
-				.col-sm-6
-					.widget-box
-						.widget-header
-							%h4.lighter.small
-								%i.icon-group.blue
-								= @team.name
-						.widget-body
-							.widget-main.padding-4
-								.clearfix
-									- @team.accounts.sort! {|a, b| b.balance <=> a.balance }.each do |account|
-										.itemdiv.memberdiv
-											.user
-												%img{ :alt => account.user.name , :src => account.user.image_url }
-											.body
-												.name
-													%a{ :href => "/teams/#{@team.id}/accounts/#{account.id}/show" }
-														= account.user.name
-												.time 
-													%i.icon-thumbs-up-alt
-													= account.balance
-					&nbsp;
+														= "'#{transaction.message}'"
+													%br
+													= "- #{transaction.origin.user.name} (#{transaction.origin.team.name})"
+													%small.pull-right
+														%em
+															= distance_of_time_in_words( transaction.created_at, Time.now ) + " ago."
+
+<!--[if !IE]> -->
+:javascript
+	window.jQuery || document.write("<script src='/javascripts/jquery-2.0.3.min.js'>"+"<"+"/script>");
+<!-- <![endif]-->
+
+<!--[if IE]>
+:javascript
+	window.jQuery || document.write("<script src='/javascripts/jquery-1.10.2.min.js'>"+"<"+"/script>");
+<![endif]-->
+
+= javascript_include_tag "/javascripts/jquery-ui-1.10.3.full.min.js"
+= javascript_include_tag "/javascripts/jquery.ui.touch-punch.min.js"
+= javascript_include_tag "/javascripts/jquery.knob.min.js"
+= javascript_include_tag "/javascripts/jquery.inputlimiter.1.3.1.min.js"
+
+
+:javascript
+	jQuery(function($) {
+
+		$('textarea.limited').inputlimiter({
+							remText: '%n character%s remaining...',
+							limitText: 'max allowed : %n.'
+						});
+
+		$( "#deposit-slider" ).css({width:'70%', 'float':'right', margin:'5px'}).slider({
+				value: 10,
+				range: "min",
+				min: 1,
+				max: 10,
+				animate: true,
+				slide: function( event, ui ) { $( "#transfer_ammount" ).val( ui.value ); }
+		});
+
+		$( "#id-btn-invite" ).on('click', function(e) {
+
+			e.preventDefault();
+
+			var dialog = $( "#dialog-invite" ).removeClass('hide').dialog({
+				modal: true,
+				title: "Invite someone",
+				buttons: [ 
+					{
+						text: "Cancel",
+						"class" : "btn btn-xs",
+						click: function() {
+							$( this ).dialog( "close" ); 
+						} 
+					},
+					{
+						text: "Invite",
+						"class" : "btn btn-success btn-xs",
+						click: function() {
+							$( "#invite-form" ).submit(); 
+						} 
+					}
+				]
+			});
+		});
+	});
