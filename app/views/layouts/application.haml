@@ -60,10 +60,10 @@
 													Login Using
 											.social-login.center
 												- if !@invite.nil?
-													%a.btn.btn-danger{ :href => "/auth/google_oauth2?invite=#{@invite.uuid}" }
+													%a.btn.btn-danger{ :href => "/auth/google_oauth2?invite=#{@invite.uuid}&fwd=#{request.fullpath}" }
 														%i.icon-google-plus
 												- else
-													%a.btn.btn-danger{ :href => '/auth/google_oauth2' }
+													%a.btn.btn-danger{ :href => "/auth/google_oauth2?fwd=#{request.fullpath}" }
 														%i.icon-google-plus
 - else
 	%body.skin-2

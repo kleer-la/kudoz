@@ -1,159 +1,160 @@
-.main-content{ :style => "margin-left: 0;" }
-	.breadcrumbs#breadcrumbs
-		%ul.breadcrumb
-			%li.active
-				%i.icon-home.home-icon
-				%a{ :href => "/" }
-					Dashboard
-			%li.active
-				%i.icon-group
-				%a{ :href => "/teams/#{@team.id}" }
-					= @team.name
-			%li.active
-				%i.icon-inbox
-				= "#{@account.user.fname}'s Account Details"
-	.page-content
-		.page-header
-			%h1
-				%i.icon-inbox
-				= "#{@account.user.fname}'s Account Details"
-		.row
-			.col-xs-12
-				.user-profile.row
-					.col-xs-12.col-sm-3.center
-						%div
-							%span.profile-picture.thumbnail
-								%img{ :src => @account.user.image_url }
-							.space-4
-							.width-80.label.label-info.label-xlg.arrowed-in.arrowed-in-right
-								.inline.position-relative
-									%span.white
-										= @account.user.name
-							.space-6
-							.profile-contact-info
-								.profile-contact-links.align-left
-									.btn.btn-link
-										%i.icon-envelope.bigger-120.pink
-										= @account.user.email 
-					.col-xs-12.col-sm-9
-						.clearfix
-							.pull-left
-								%span.btn.btn-app.btn-sm.btn-success.no-hover
-									%span.line-height-1.bigger-170
-										= @account.balance
-									%br
-									%span.line-height-1.bigger-90
-										%i.icon-thumbs-up-alt
-										Kudoz	
-							.pull-right
-								- if @account.user.id != @my_user.id
-									%a.btn.btn-app.btn-sm.btn-info#id-btn-deposit
-										%i.icon-download.bigger-200
-										Deposit
-									.hide#dialog-deposit
-										%p
-											Select the amount of Kudoz you want to transfer from your account to 
-											= @account.user.name + "."
-										-form_for :transfer, "/teams/#{@team.id}/accounts/#{@account.id}/deposit", :method => :put, :id => "deposit-form" do |f|
-											= f.text_field :ammount, :value => 10, :class => "col-xs-3"
-											%span.ui-slider-green#deposit-slider
-											%br
-											%br
-											Message:
-											%br
-											= f.text_area:message, :maxlength => 140, :class => :limited
-						.hr.dotted
-						.widget-box.transparent
-							.widget-header.widget-header-small
-								%h4.blue.smaller
-									%i.icon-time.info
-									Transaction History
-							.widget-body
-								.widget-main.padding-8
-									.profile-feed#profile-feed-1
-										- @account.transactions.each do |transaction|
-											- if transaction.origin.id == @account.id
-												.profile-activity.clearfix
-													%div
-														%img.pull-right{ :src => transaction.destination.user.image_url }
-														%i.pull-right.thumbicon.icon-share-alt.btn-info.no-hover
-														%img.pull-left{ :src => transaction.origin.user.image_url }
-														= "- #{transaction.ammount} Kudoz. "
-														%br
-														= "'#{transaction.message}' - #{transaction.origin.user.name}"
-														%br
-														%small
-															%em
-																= distance_of_time_in_words( transaction.created_at, Time.now ) + " ago."
-											- else
-												.profile-activity.clearfix
-													%div
-														%img.pull-left{ :src => transaction.origin.user.image_url }
-														%i.pull-right.thumbicon.icon-download.btn-success.no-hover
-														= "+ #{transaction.ammount} Kudoz. "
-														%br
-														= "'#{transaction.message}' - #{transaction.origin.user.name}"
-														%br
-														%small
-															%em
-																= distance_of_time_in_words( transaction.created_at, Time.now ) + " ago."
-<!--[if !IE]> -->
-:javascript
-	window.jQuery || document.write("<script src='/javascripts/jquery-2.0.3.min.js'>"+"<"+"/script>");
-<!-- <![endif]-->
+- if !@my_user.nil?
+	.main-content{ :style => "margin-left: 0;" }
+		.breadcrumbs#breadcrumbs
+			%ul.breadcrumb
+				%li.active
+					%i.icon-home.home-icon
+					%a{ :href => "/" }
+						Dashboard
+				%li.active
+					%i.icon-group
+					%a{ :href => "/teams/#{@team.id}" }
+						= @team.name
+				%li.active
+					%i.icon-inbox
+					= "#{@account.user.fname}'s Account Details"
+		.page-content
+			.page-header
+				%h1
+					%i.icon-inbox
+					= "#{@account.user.fname}'s Account Details"
+			.row
+				.col-xs-12
+					.user-profile.row
+						.col-xs-12.col-sm-3.center
+							%div
+								%span.profile-picture.thumbnail
+									%img{ :src => @account.user.image_url }
+								.space-4
+								.width-80.label.label-info.label-xlg.arrowed-in.arrowed-in-right
+									.inline.position-relative
+										%span.white
+											= @account.user.name
+								.space-6
+								.profile-contact-info
+									.profile-contact-links.align-left
+										.btn.btn-link
+											%i.icon-envelope.bigger-120.pink
+											= @account.user.email 
+						.col-xs-12.col-sm-9
+							.clearfix
+								.pull-left
+									%span.btn.btn-app.btn-sm.btn-success.no-hover
+										%span.line-height-1.bigger-170
+											= @account.balance
+										%br
+										%span.line-height-1.bigger-90
+											%i.icon-thumbs-up-alt
+											Kudoz	
+								.pull-right
+									- if @account.user.id != @my_user.id
+										%a.btn.btn-app.btn-sm.btn-info#id-btn-deposit
+											%i.icon-download.bigger-200
+											Deposit
+										.hide#dialog-deposit
+											%p
+												Select the amount of Kudoz you want to transfer from your account to 
+												= @account.user.name + "."
+											-form_for :transfer, "/teams/#{@team.id}/accounts/#{@account.id}/deposit", :method => :put, :id => "deposit-form" do |f|
+												= f.text_field :ammount, :value => 10, :class => "col-xs-3"
+												%span.ui-slider-green#deposit-slider
+												%br
+												%br
+												Message:
+												%br
+												= f.text_area:message, :maxlength => 140, :class => :limited
+							.hr.dotted
+							.widget-box.transparent
+								.widget-header.widget-header-small
+									%h4.blue.smaller
+										%i.icon-time.info
+										Transaction History
+								.widget-body
+									.widget-main.padding-8
+										.profile-feed#profile-feed-1
+											- @account.transactions.each do |transaction|
+												- if transaction.origin.id == @account.id
+													.profile-activity.clearfix
+														%div
+															%img.pull-right{ :src => transaction.destination.user.image_url }
+															%i.pull-right.thumbicon.icon-share-alt.btn-info.no-hover
+															%img.pull-left{ :src => transaction.origin.user.image_url }
+															= "- #{transaction.ammount} Kudoz. "
+															%br
+															= "'#{transaction.message}' - #{transaction.origin.user.name}"
+															%br
+															%small
+																%em
+																	= distance_of_time_in_words( transaction.created_at, Time.now ) + " ago."
+												- else
+													.profile-activity.clearfix
+														%div
+															%img.pull-left{ :src => transaction.origin.user.image_url }
+															%i.pull-right.thumbicon.icon-download.btn-success.no-hover
+															= "+ #{transaction.ammount} Kudoz. "
+															%br
+															= "'#{transaction.message}' - #{transaction.origin.user.name}"
+															%br
+															%small
+																%em
+																	= distance_of_time_in_words( transaction.created_at, Time.now ) + " ago."
+	<!--[if !IE]> -->
+	:javascript
+		window.jQuery || document.write("<script src='/javascripts/jquery-2.0.3.min.js'>"+"<"+"/script>");
+	<!-- <![endif]-->
 
-<!--[if IE]>
-:javascript
-	window.jQuery || document.write("<script src='/javascripts/jquery-1.10.2.min.js'>"+"<"+"/script>");
-<![endif]-->
+	<!--[if IE]>
+	:javascript
+		window.jQuery || document.write("<script src='/javascripts/jquery-1.10.2.min.js'>"+"<"+"/script>");
+	<![endif]-->
 
-= javascript_include_tag "/javascripts/jquery-ui-1.10.3.full.min.js"
-= javascript_include_tag "/javascripts/jquery.ui.touch-punch.min.js"
-= javascript_include_tag "/javascripts/jquery.knob.min.js"
-= javascript_include_tag "/javascripts/jquery.inputlimiter.1.3.1.min.js"
+	= javascript_include_tag "/javascripts/jquery-ui-1.10.3.full.min.js"
+	= javascript_include_tag "/javascripts/jquery.ui.touch-punch.min.js"
+	= javascript_include_tag "/javascripts/jquery.knob.min.js"
+	= javascript_include_tag "/javascripts/jquery.inputlimiter.1.3.1.min.js"
 
 
-:javascript
-	jQuery(function($) {
+	:javascript
+		jQuery(function($) {
 		
-		$('textarea.limited').inputlimiter({
-							remText: '%n character%s remaining...',
-							limitText: 'max allowed : %n.'
-						});
+			$('textarea.limited').inputlimiter({
+								remText: '%n character%s remaining...',
+								limitText: 'max allowed : %n.'
+							});
 		
-		$( "#deposit-slider" ).css({width:'70%', 'float':'right', margin:'5px'}).slider({
-				value: 10,
-				range: "min",
-				min: 1,
-				max: #{@my_user.accounts.first.balance},
-				animate: true,
-				slide: function( event, ui ) { $( "#transfer_ammount" ).val( ui.value ); }
-		});
+			$( "#deposit-slider" ).css({width:'70%', 'float':'right', margin:'5px'}).slider({
+					value: 10,
+					range: "min",
+					min: 1,
+					max: #{@my_user.accounts.first.balance},
+					animate: true,
+					slide: function( event, ui ) { $( "#transfer_ammount" ).val( ui.value ); }
+			});
 		
-		$( "#id-btn-deposit" ).on('click', function(e) {
+			$( "#id-btn-deposit" ).on('click', function(e) {
 			
-			e.preventDefault();
+				e.preventDefault();
 
-			var dialog = $( "#dialog-deposit" ).removeClass('hide').dialog({
-				modal: true,
-				title: "Deposit",
-				buttons: [ 
-					{
-						text: "Cancel",
-						"class" : "btn btn-xs",
-						click: function() {
-							$( this ).dialog( "close" ); 
-						} 
-					},
-					{
-						text: "OK",
-						"class" : "btn btn-primary btn-xs",
-						click: function() {
-							$( "#deposit-form" ).submit(); 
-						} 
-					}
-				]
+				var dialog = $( "#dialog-deposit" ).removeClass('hide').dialog({
+					modal: true,
+					title: "Deposit",
+					buttons: [ 
+						{
+							text: "Cancel",
+							"class" : "btn btn-xs",
+							click: function() {
+								$( this ).dialog( "close" ); 
+							} 
+						},
+						{
+							text: "OK",
+							"class" : "btn btn-primary btn-xs",
+							click: function() {
+								$( "#deposit-form" ).submit(); 
+							} 
+						}
+					]
+				});
 			});
 		});
-	});
 	

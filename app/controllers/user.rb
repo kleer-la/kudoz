@@ -5,6 +5,7 @@ Kudoz::App.controllers :user do
      provider = params[:provider]
      auth = request.env['omniauth.auth']
      invite_uuid = request.env['omniauth.params']['invite']
+     fwd = request.env['omniauth.params']['fwd']
      
      invite = invite_uuid.nil? ? nil : Invite.where("uuid = ?", invite_uuid).first
      
@@ -23,6 +24,10 @@ Kudoz::App.controllers :user do
          end
          
          redirect_to "/teams/#{invite.team.id}"
+       elsif !fwd.nil? && fwd != "/"
+         redirect_to fwd
+       elsif user.accounts.size == 1
+         redirect_to "/teams/#{user.accounts.first.team.id}"
        else
          redirect_to "/"
        end
