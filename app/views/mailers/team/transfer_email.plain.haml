@@ -1,0 +1,13 @@
+Kudoz.io
+= "==============================================================="
+= "#{transfer.ammount} Kudoz for #{transfer.destination.user.name}"
+= "---------------------------------------------------------------"
+- if transfer.destination.user.id == account.user.id
+	= "You've received #{transfer.ammount} Kudoz from #{transfer.origin.user.name}:"
+- else
+	= "#{transfer.destination.user.name}'s received #{transfer.ammount} Kudoz from #{transfer.origin.user.name}:"
+= ' '
+= transfer.message
+= "---------------------------------------------------------------"
+= "This message was sent to #{account.user.email}."
+= "Kudoz.io Team."

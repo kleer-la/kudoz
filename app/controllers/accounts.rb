@@ -44,12 +44,9 @@ Kudoz::App.controllers :accounts do
       begin
         @transfer.execute!
       
-        email(
-          :from => "koinz@kleer.la", 
-          :to => @transfer.destination.user.email, 
-          :subject => "Koinz deposit from #{@transfer.origin.user.name}!", 
-          :body=>"You've received #{@transfer.ammount} Koinz from #{@transfer.origin.user.name}: '#{@transfer.message}'"
-        )
+        @transfer.destination.team.accounts.each do |account|
+          deliver(:team, :transfer_email, @transfer, account, request.host )
+        end
         
       rescue Exception => e
           puts e.message
