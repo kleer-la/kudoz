@@ -28,7 +28,7 @@
 	= csrf_meta_tags
 	= yield_content :include
 
-- if @my_user.nil?
+- if @my_user.nil? || !@invite.nil?
 	%body.login-layout
 		.main-container
 			.main-content
@@ -46,12 +46,25 @@
 								.login-box.visible.widget-box.no-border
 									.widget-body
 										.widget-main
+											- if !@invite.nil?
+												.center
+													You've received an invitation to be part of 
+													%strong
+														= @invite.team.name
+													team from
+													= "#{@invite.user.name}."
+													%br
+													%br
 											.social-or-login.center
 												%span.bigger-110
 													Login Using
 											.social-login.center
-												%a.btn.btn-danger{ :href => '/auth/google_oauth2?invite=KJHDGKJHGDJHAGKADGKAJHDGKAJDHGDKAJ' }
-													%i.icon-google-plus
+												- if !@invite.nil?
+													%a.btn.btn-danger{ :href => "/auth/google_oauth2?invite=#{@invite.uuid}" }
+														%i.icon-google-plus
+												- else
+													%a.btn.btn-danger{ :href => '/auth/google_oauth2' }
+														%i.icon-google-plus
 - else
 	%body.skin-2
 		.navbar.navbar-default#navbar

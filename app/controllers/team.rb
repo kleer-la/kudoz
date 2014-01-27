@@ -25,8 +25,12 @@ Kudoz::App.controllers :team do
   end
   
   get :accept_invite, :map => '/teams/:team_id/invites/:invite_uuid/accept' do
-    @invite_uuid = params[:invite_uuid]
-    @invite_uuid
+    invite_uuid = params[:invite_uuid]
+    @invite = Invite.where( "uuid = ?", invite_uuid ).first
+    
+    if !@invite.nil? && !@invite.acepted
+      render 'home/index', :layout => :application
+    end
   end
 
 end

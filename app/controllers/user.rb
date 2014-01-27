@@ -4,16 +4,17 @@ Kudoz::App.controllers :user do
      
      provider = params[:provider]
      auth = request.env['omniauth.auth']
+     invite_uuid = request.env['omniauth.params']['invite']
      
-     puts request.env['omniauth.params'].inspect
-     
-     user = User.find_for_omniouth( provider, auth )
+     user = User.find_for_omniouth( provider, auth, invite_uuid )
      
      if !user.nil?
        session[:my_user_id] = user.id
        
        if user.needs_initialization
          redirect_to "/user/initialize"
+       elsif !invite_uuid.nil?
+         redirect_to "/teams/#{user.accounts.last.team.id}"
        else
          redirect_to "/"
        end

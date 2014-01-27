@@ -206,27 +206,34 @@
 									%table{ :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%" }
 										%tr
 											%td.headerContent{ :style => "color: #303030;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;padding: 20px;text-align: left;vertical-align: middle;" }
-												= "Invitation from #{invite.user.name}."
+												= "Invitation from #{invite.user.name}"
 							%tr
 								%td{ :align => "center", :valign => "top" }
 									%table#templateBody{ :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600", :style => "background-color: #FFFFFF;border-top: 0;border-bottom: 1px solid #CACACA;" }
 										%tr
-											%td{ :align => "center", :valign => "top", :style => "padding-top:40px; padding-right:20px; padding-bottom:40px; padding-left:20px;" }
+											%td{ :align => "center", :valign => "top", :style => "padding-top:20px; padding-right:20px; padding-bottom:40px; padding-left:20px;" }
 												%table{ :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%" }
 													%tr
 														%td.bodyContent{ :valign => "top", :style => "padding-bottom: 20px;color: #303030;font-family: Helvetica;font-size: 13px;line-height: 150%;text-align: left;" }
-															= "You've received an invitation to be part of #{invite.team.name} at Kudoz from #{invite.user.name}:"
+															You've received an invitation to be part of 
+															%strong
+																= invite.team.name
+															at Kudoz.io from
+															= "#{invite.user.name}."
+															He send you the following message:
 															%br
 															%br
-															Message:
+															%em
+																= invite.message
 															%br
-															= invite.message
 															%br
 															Follow
-															%a{ :href => "http://#{hostname}/teams/#{invite.team.id}/invites/#{invite.uuid}/accept" }
-																this link
-															to accept the invitation.
-															%br
+															%strong
+																%a{ :href => "http://#{hostname}/teams/#{invite.team.id}/invites/#{invite.uuid}/accept" }
+																	this link
+															to accept 
+															= invite.user.fname
+															's invitation.
 															%br
 				%tr
 					%td{ :align => "center", :valign => "top" }
@@ -237,4 +244,9 @@
 										%tr
 											%td{ :valign => "top", :style => "padding-right:20px;" }
 												%em
-													Aca va el texto del feooter.
+													This message was sent to
+													%strong 
+														= invite.guest_email
+													= "."
+													%br
+													Kudoz.io Team.
