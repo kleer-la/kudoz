@@ -45,4 +45,40 @@ describe Transfer do
     tr.destination.balance.should == 140
   end
   
+  it "should validate the execution is done from an accounts with enough balance" do
+    tr = Transfer.new
+    tr.origin = @u1.accounts.first
+    tr.destination = @u2.accounts.first
+    tr.ammount = 200
+    tr.message = "Mensaje de prueba"
+    expect { tr.execute! }.to raise_error
+    
+    tr.origin.balance.should == 100
+    tr.destination.balance.should == 100
+  end
+  
+  it "should require an ammount" do
+     tr = Transfer.new
+     tr.origin = @u1.accounts.first
+     tr.destination = @u2.accounts.first
+     tr.ammount = ""
+     expect { tr.execute! }.to raise_error
+
+     tr.origin.balance.should == 100
+     tr.destination.balance.should == 100
+   end
+
+   it "should require a message" do
+      tr = Transfer.new
+      tr.origin = @u1.accounts.first
+      tr.destination = @u2.accounts.first
+      tr.ammount = 10
+      tr.message = ""
+      expect { tr.execute! }.to raise_error
+
+      tr.origin.balance.should == 100
+      tr.destination.balance.should == 100
+    end
+   
+  
 end

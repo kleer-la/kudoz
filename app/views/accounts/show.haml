@@ -13,6 +13,9 @@
 				%li.active
 					%i.icon-inbox
 					= "#{@account.user.fname}'s Account Details"
+		.col-xs-12.center
+			.space-4
+			=[:error, :warning, :success, :notice].map { |type| flash_tag(type, :class => "alert alert-#{type==:error ? :danger : type} fade in", :bootstrap => true) }.join.html_safe
 		.page-content
 			.page-header
 				%h1
@@ -45,7 +48,7 @@
 										%br
 										%span.line-height-1.bigger-90
 											%i.icon-thumbs-up-alt
-											Kudoz	
+											Kudoz
 								.pull-right
 									- if @account.user.id != @my_user.id
 										%a.btn.btn-app.btn-sm.btn-info#id-btn-deposit

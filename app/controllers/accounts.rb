@@ -39,21 +39,23 @@ Kudoz::App.controllers :accounts do
       @transfer = Transfer.new(params[:transfer])
       @transfer.origin = @my_account
       @transfer.destination = @account
-      @transfer.save!
       
       begin
+
         @transfer.execute!
       
         @transfer.destination.team.accounts.each do |account|
           deliver(:team, :transfer_email, @transfer, account, request.host )
         end
         
+        flash[:notice] = 'Deposit successfuly done.'
       rescue Exception => e
-          puts e.message
+        puts "ERROR: #{e.message}"
+        flash[:error] = e.message
       end
     
     end
     
-    render 'accounts/show'
+    redirect_to "/teams/#{@team.id}/accounts/#{@account.id}/show"
   end
 end
