@@ -63,11 +63,15 @@
 														Login Using
 												.social-login.center
 													- if !@invite.nil?
+														%a.btn.btn-primary{ :href => "/auth/facebook?invite=#{@invite.uuid}&fwd=#{request.fullpath}" }
+															%i.icon-facebook
 														%a.btn.btn-info{ :href => "/auth/twitter?invite=#{@invite.uuid}&fwd=#{request.fullpath}" }
 															%i.icon-twitter
 														%a.btn.btn-danger{ :href => "/auth/google_oauth2?invite=#{@invite.uuid}&fwd=#{request.fullpath}" }
 															%i.icon-google-plus
 													- else
+														%a.btn.btn-primary{ :href => "/auth/facebook?fwd=#{request.fullpath}" }
+															%i.icon-facebook
 														%a.btn.btn-info{ :href => "/auth/twitter?fwd=#{request.fullpath}" }
 															%i.icon-twitter
 														%a.btn.btn-danger{ :href => "/auth/google_oauth2?fwd=#{request.fullpath}" }

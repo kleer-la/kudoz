@@ -12,6 +12,7 @@ module Kudoz
       # For additional provider examples please look at 'omni_auth.rb'
       provider :google_oauth2, ENV['KUDOZ_GOOGLE_KEY'], ENV['KUDOZ_GOOGLE_SECRET'], {}
       provider :twitter, ENV['KUDOZ_TWITTER_KEY'], ENV['KUDOZ_TWITTER_SECRET'], {}
+      provider :facebook, ENV['KUDOZ_FACEBOOK_KEY'], ENV['KUDOZ_FACEBOOK_SECRET'], {}
     end
 
     set :delivery_method, :smtp => { 

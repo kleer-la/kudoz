@@ -7,7 +7,7 @@ Kudoz::App.controllers :user do
      
      puts auth.to_hash.inspect
      
-#     if provider == "google_oauth2"
+     if provider == "google_oauth2" || provider == "twitter"
        auth = request.env['omniauth.auth']
        invite_uuid = request.env['omniauth.params']['invite']
        fwd = request.env['omniauth.params']['fwd']
@@ -43,10 +43,7 @@ Kudoz::App.controllers :user do
          
        end
       
-#     else
-#       content_type 'text/plain'
-#       auth.to_hash.inspect
-#     end
+    end
 
    end
 
