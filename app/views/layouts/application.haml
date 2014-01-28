@@ -27,6 +27,21 @@
 	<![endif]-->
 	= csrf_meta_tags
 	= yield_content :include
+	
+	<!--[if !IE]> -->
+	:javascript
+		window.jQuery || document.write("<script src='/javascripts/jquery-2.0.3.min.js'>"+"<"+"/script>");
+	<!-- <![endif]-->
+
+	<!--[if IE]>
+	:javascript
+		window.jQuery || document.write("<script src='/javascripts/jquery-1.10.2.min.js'>"+"<"+"/script>");
+	<![endif]-->
+
+	= javascript_include_tag "/javascripts/jquery-ui-1.10.3.full.min.js"
+	= javascript_include_tag "/javascripts/jquery.ui.touch-punch.min.js"
+	= javascript_include_tag "/javascripts/jquery.knob.min.js"
+	= javascript_include_tag "/javascripts/jquery.inputlimiter.1.3.1.min.js"
 
 - if @my_user.nil?
 	- if @invite.nil?
@@ -87,6 +102,32 @@
 							Kudoz.io
 				.navbar-header.pull-right{ :role => "navigation" }
 					%ul.nav.ace-nav
+						%li.green
+							%a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#"}
+								%i.icon-group
+								%span.badge.badge-green
+									= @my_user.teams.count
+							%ul.pull-right.dropdown-navbar.dropdown-menu.dropdown-caret.dropdown-close
+								%li.dropdown-header
+									%i.icon-group
+									= "#{@my_user.teams.count} Team(s)"
+								- @my_user.teams.each do |team|
+									%li
+										%a{ :href => "/teams/#{team.id}" }
+											.clearfix
+												%span.pull-left
+													= team.name
+								%li
+									%a#id-btn-new-team{ :href => "#"}
+										%i.icon-plus-sign
+										Create New Team
+							.hide#dialog-new-team
+								%p
+									Use this form to create a new team. 
+								-form_for :team, "/teams/create", :method => :put, :id => "new-team-form" do |f|
+									Team Name:
+									%br
+									= f.text_field :name, :value => ""
 						%li.light-blue
 							%a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#"}
 								- if !@my_user.image_url.nil? && @my_user.image_url != ""
@@ -127,3 +168,46 @@
 	
 	= javascript_include_tag "/javascripts/ace-elements.min.js"
 	= javascript_include_tag "/javascripts/ace.min.js"
+	
+:javascript
+	jQuery(function($) {
+		
+		$( "#id-btn-new-team" ).on('click', function(e) {
+
+			e.preventDefault();
+
+			var dialog = $( "#dialog-new-team" ).removeClass('hide').dialog({
+				modal: true,
+				title: "New Team",
+				buttons: [ 
+					{
+						text: "Cancel",
+						"class" : "btn btn-xs",
+						"id" : "btn-new-team-cancel",
+						click: function() {
+							$( this ).dialog( "close" ); 
+						} 
+					},
+					{
+						text: "Create",
+						"class" : "btn btn-success btn-xs",
+						"id" : "btn-new-team-ok",
+						click: function() {
+							if ($("#team_name").val()!="" )
+							{
+								$( "#btn-new-team-ok" ).addClass('hide');
+								$( "#btn-new-team-cancel" ).addClass('hide');
+								$( "#btn-new-team-pls-wait" ).removeClass('hide');
+								$( "#new-team-form" ).submit();
+							}
+						} 
+					},
+					{
+						text: "Please wait...",
+						"class" : "btn btn-light btn-xs hide",
+						"id" : "btn-new-team-pls-wait"
+					}
+				]
+			});
+		});
+	});

@@ -29,6 +29,13 @@ Kudoz::App.controllers :team do
     redirect_to "/teams/#{@team.id}"
   end
   
+  put :create, :map => '/teams/create' do
+    @my_user = User.find_by_id( session[:my_user_id] )
+    @team = Team.create( params[:team] )
+    @my_user.accounts << Account.create( balance: 100, team: @team )
+    redirect_to "/teams/#{@team.id}"
+  end
+  
   get :accept_invite, :map => '/teams/:team_id/invites/:invite_uuid/accept' do
     invite_uuid = params[:invite_uuid]
     @invite = Invite.where( "uuid = ?", invite_uuid ).first
