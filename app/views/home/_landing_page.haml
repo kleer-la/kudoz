@@ -1,0 +1,150 @@
+.center
+	.container
+		%h4.text-muted
+			%em
+				How to define great work? 
+				%strong
+					Say Kudoz!
+	.jumbotron{ :style => "background-color: #c6487e;" }
+		.row
+			.col-md-8
+				%h1.white
+					%i.icon-thumbs-up-alt.white
+					Kudoz.io
+				%p.lead.white
+					A simple way of giving and receiving instant feedback for your team's continuous improvement.
+			.col-md-4
+				.panel.panel-default
+					.panel-body
+						.login-box.visible.widget-box.no-border
+							.widget-body
+								.widget-main
+									- if !@invite.nil?
+										.center
+											You've received an invitation to be part of 
+											%strong
+												= @invite.team.name
+											team from
+											= "#{@invite.user.name}."
+											%br
+											%br
+									.center
+										%span.bigger-110
+											Sign In Using
+									.social-login.center
+										- if !@invite.nil?
+											%a.btn.btn-danger{ :href => "/auth/google_oauth2?invite=#{@invite.uuid}&fwd=#{request.fullpath}" }
+												%i.icon-google-plus
+										- else
+											%a.btn.btn-danger{ :href => "/auth/google_oauth2?fwd=#{request.fullpath}" }
+												%i.icon-google-plus
+										%br
+										&nbsp;
+	.container
+		%hr{ :style => "border-top: 1px solid #CCCCCC;" }
+		.row
+			.col-md-4
+				.panel.panel-default
+					.panel-body
+						%img{ :src => "/img/flat-icons/Earth.png" }
+						%br
+						%br
+						Discover a new world of teamwork
+						%br
+						&nbsp;
+			.col-md-4
+				.panel.panel-default
+					.panel-body
+						%img{ :src => "/img/flat-icons/Graph.png" }
+						%br
+						%br
+						Giving continuous feedback will help your team to turn into a more productive one
+			.col-md-4
+				.panel.panel-default
+					.panel-body
+						%img{ :src => "/img/flat-icons/Spaceship.png" }
+						%br
+						%br
+						Kudoz will challenge you and motivate you
+						%br
+						&nbsp;
+		.jumbotron{ :style => "background-color: rgb(111, 179, 224);" }
+			.row
+				.col-md-12
+					%h1.white
+						How it works?
+					.panel.panel-default
+						.panel-body
+							.row
+								.col-md-12
+									%p.lead
+										%img{ :src => "/img/flat-icons/Shield.png" }
+										&nbsp;
+										1. Create a team.
+									%p.lead
+										%img{ :src => "/img/flat-icons/Girl.png" }
+										&nbsp;
+										2. Invite your fellow team mates.
+									%p.lead
+										%img{ :src => "/img/flat-icons/flower.png" }
+										&nbsp;
+										3. Recognize and get recognized. Kudoz!
+									%p.lead
+										%img{ :src => "/img/flat-icons/medal.png" }
+										&nbsp;
+										4. The more you contribute to the team, the more Kudoz you'll get!
+		.row
+			.col-md-3
+			.col-md-6
+				%blockquote
+					%p
+						Feel again the spark of motivation!
+			.col-md-3
+		%hr{ :style => "border-top: 1px solid #CCCCCC;" }
+	.jumbotron{ :style => "background-color: #c6487e;" }
+		.row
+			.col-md-8
+				%h1.white
+					We are sorry!
+				%p.lead.white
+					Kudoz are so powerful, yet the achimia formula hasn't been found for the moment. So, when you have your own mountain of Kudoz (that will mean you've done great!), what to do with them is an open ending.
+				%p.lead.white
+					Just imagine your infinite options!	
+				%p
+					%a.btn.btn-primary.btn-lg
+						Tell us your alchimia...
+			.col-md-4
+				.panel.panel-default
+					.panel-body
+						.login-box.visible.widget-box.no-border
+							.widget-body
+								.widget-main
+									- if !@invite.nil?
+										.center
+											You've received an invitation to be part of 
+											%strong
+												= @invite.team.name
+											team from
+											= "#{@invite.user.name}."
+											%br
+											%br
+									.center
+										%span.bigger-110
+											Sign In Using
+									.social-login.center
+										- if !@invite.nil?
+											%a.btn.btn-danger{ :href => "/auth/google_oauth2?invite=#{@invite.uuid}&fwd=#{request.fullpath}" }
+												%i.icon-google-plus
+										- else
+											%a.btn.btn-danger{ :href => "/auth/google_oauth2?fwd=#{request.fullpath}" }
+												%i.icon-google-plus
+										%br
+										&nbsp;
+	.container
+		%p.text-muted
+			© 2013, Kudoz.io
+			%br
+			&nbsp;
+										
+										
+										

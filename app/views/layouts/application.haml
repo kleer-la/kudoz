@@ -28,43 +28,46 @@
 	= csrf_meta_tags
 	= yield_content :include
 
-- if @my_user.nil? || !@invite.nil?
-	%body.login-layout
-		.main-container
-			.main-content
-				.row
-					.col-sm-10.col-sm-offset-1
-						.login-container
-							.center
-								%h1
-									%i.icon-thumbs-up-alt.white
-										%span.white
-											Kudoz.io
-							.space-6
+- if @my_user.nil?
+	- if @invite.nil?
+		= partial "home/landing_page"
+	- elsif !@invite.nil?
+		%body.login-layout
+			.main-container
+				.main-content
+					.row
+						.col-sm-10.col-sm-offset-1
+							.login-container
+								.center
+									%h1
+										%i.icon-thumbs-up-alt.white
+											%span.white
+												Kudoz.io
+								.space-6
 
-							.position-relative
-								.login-box.visible.widget-box.no-border
-									.widget-body
-										.widget-main
-											- if !@invite.nil?
-												.center
-													You've received an invitation to be part of 
-													%strong
-														= @invite.team.name
-													team from
-													= "#{@invite.user.name}."
-													%br
-													%br
-											.social-or-login.center
-												%span.bigger-110
-													Login Using
-											.social-login.center
+								.position-relative
+									.login-box.visible.widget-box.no-border
+										.widget-body
+											.widget-main
 												- if !@invite.nil?
-													%a.btn.btn-danger{ :href => "/auth/google_oauth2?invite=#{@invite.uuid}&fwd=#{request.fullpath}" }
-														%i.icon-google-plus
-												- else
-													%a.btn.btn-danger{ :href => "/auth/google_oauth2?fwd=#{request.fullpath}" }
-														%i.icon-google-plus
+													.center
+														You've received an invitation to be part of 
+														%strong
+															= @invite.team.name
+														team from
+														= "#{@invite.user.name}."
+														%br
+														%br
+												.social-or-login.center
+													%span.bigger-110
+														Login Using
+												.social-login.center
+													- if !@invite.nil?
+														%a.btn.btn-danger{ :href => "/auth/google_oauth2?invite=#{@invite.uuid}&fwd=#{request.fullpath}" }
+															%i.icon-google-plus
+													- else
+														%a.btn.btn-danger{ :href => "/auth/google_oauth2?fwd=#{request.fullpath}" }
+															%i.icon-google-plus
 - else
 	%body.skin-2
 		.navbar.navbar-default#navbar
@@ -92,17 +95,6 @@
 										Sign out
 		.main-container.container#main-container
 			.main-container-inner
-				-# %a.menu-toggler#menu-toggler{ :href => "#" }
-				-# 	%span.menu-text
-				-# .sidebar#sidebar
-				-# 	%ul.nav.nav-list
-				-# 		%li.active
-				-# 			%a{ :href => "/" }
-				-# 				%i.icon-dashboard
-				-# 				%span.menu-text
-				-# 					Dashboard
-				-# 	.sidebar-collapse#sidebar-collapse
-				-# 		%i.icon-double-angle-left{ "data-icon1" => "icon-double-angle-left", "data-icon2" => "icon-double-angle-right" }
 				= yield
 				= partial 'common/uservoice'
 	
