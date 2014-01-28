@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   def self.find_for_omniouth(provider, auth, invite=nil)
     
     uid = auth["uid"]
-    if provider == "google_oauth2"
+    if provider == "google_oauth2" || provider == "facebook" 
       fname = auth["info"]["first_name"]
       lname = auth["info"]["last_name"]
       image_url = auth["info"]["image"]
