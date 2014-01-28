@@ -1,0 +1,33 @@
+- if !@my_user.nil?
+	.main-content
+		.row
+			.col-sm-10.col-sm-offset-1
+				.login-container
+					.center
+						%h1
+							%i.icon-certificate.white
+								%span.white
+									Kudoz.io
+					.space-6
+
+					.position-relative
+						.login-box.visible.widget-box.no-border
+							.widget-body
+								.widget-main
+									%h4.header.green.lighter.bigger
+										%i.icon-group.blue
+										Initialize your first team
+									.center
+										This is your first team.
+										%br
+										Please choose a name to identify it.
+									.space-6
+									= form_for @my_user.accounts.first.team, url(:user, :initial_team_update, :team_id => @my_user.accounts.first.team.id), :method => :put, :id => "init-team-form" do |f|
+										%fieldset
+											%label.block.clearfix
+												%span.block.input-icon.input-icon-right
+													= f.text_field :name, :class => "form-control"
+													%i.icon-group
+											.space-24
+											.clearfix
+												= f.submit :value => "Next >", :class => "width-65 pull-right btn btn-sm btn-success"

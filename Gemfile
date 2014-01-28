@@ -45,3 +45,4 @@ gem 'padrino', '0.11.4'
 
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
+gem 'omniauth-twitter'

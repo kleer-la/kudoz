@@ -15,19 +15,17 @@
 							.widget-body
 								.widget-main
 									%h4.header.green.lighter.bigger
-										%i.icon-group.blue
-										Initialize your first team
+										%i.icon-user.blue
+										Initialize your profile
 									.center
-										This is your first team.
-										%br
-										Please choose a name to identify it.
+										Before moving forward, we need you to enter your e-mail address.
 									.space-6
-									= form_for @my_user.accounts.first.team, url(:user, :initial_update, :team_id => @my_user.accounts.first.team.id), :method => :put, :id => "init-team-form" do |f|
+									= form_for @my_user, url(:user, :initial_email_update, :team_id => @my_user.id), :method => :put, :id => "init-email-form" do |f|
 										%fieldset
 											%label.block.clearfix
 												%span.block.input-icon.input-icon-right
-													= f.text_field :name, :class => "form-control"
-													%i.icon-group
+													= f.text_field :email, :class => "form-control"
+													%i.icon-envelope
 											.space-24
 											.clearfix
 												= f.submit :value => "Next >", :class => "width-65 pull-right btn btn-sm btn-success"

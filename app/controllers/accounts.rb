@@ -45,14 +45,18 @@ Kudoz::App.controllers :accounts do
         @transfer.execute!
       
         @transfer.destination.team.accounts.each do |account|
-          deliver(:team, :transfer_email, @transfer, account, request.host )
+          if !account.user.email.nil? && account.user.email != ""
+            deliver(:team, :transfer_email, @transfer, account, request.host )
+          end
         end
         
         flash[:success] = "Deposit successfuly done!"
       rescue Exception => e
         flash[:error] = e.message
       end
-    
+      
+    elsif @my_account.nil?
+      flash[:error] = "You don't belong to this team."
     end
     
     redirect_to "/teams/#{@team.id}/accounts/#{@account.id}/show"

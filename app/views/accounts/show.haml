@@ -39,6 +39,10 @@
 										.btn.btn-link
 											%i.icon-envelope.bigger-120.pink
 											= @account.user.email 
+										- if !@account.user.twitter.nil? && @account.user.twitter != ""
+											.btn.btn-link
+												%i.icon-twitter.bigger-120.pink
+												= "@#{@account.user.twitter}"
 						.col-xs-12.col-sm-9
 							.clearfix
 								.pull-left

@@ -11,6 +11,7 @@ module Kudoz
     use OmniAuth::Builder do
       # For additional provider examples please look at 'omni_auth.rb'
       provider :google_oauth2, ENV['KUDOZ_GOOGLE_KEY'], ENV['KUDOZ_GOOGLE_SECRET'], {}
+      provider :twitter, ENV['KUDOZ_TWITTER_KEY'], ENV['KUDOZ_TWITTER_SECRET'], {}
     end
 
     set :delivery_method, :smtp => { 
