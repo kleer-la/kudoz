@@ -48,9 +48,8 @@ Kudoz::App.controllers :accounts do
           deliver(:team, :transfer_email, @transfer, account, request.host )
         end
         
-        flash[:notice] = 'Deposit successfuly done.'
+        flash[:success] = "Deposit successfuly done!"
       rescue Exception => e
-        puts "ERROR: #{e.message}"
         flash[:error] = e.message
       end
     

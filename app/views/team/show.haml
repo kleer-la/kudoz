@@ -9,6 +9,9 @@
 				%li.active
 					%i.icon-group
 					= @team.name
+		.col-xs-12.center
+			.space-4
+			=[:error, :warning, :success, :notice].map { |type| flash_tag(type, :class => "alert alert-#{type==:error ? :danger : type} fade in", :bootstrap => true) }.join.html_safe
 		.page-content
 			.page-header
 				%h1 

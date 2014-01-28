@@ -17,11 +17,16 @@ Kudoz::App.controllers :team do
     invite.user = @my_user
     invite.team = @team
     invite.acepted = false
-    invite.save!
     
-    deliver(:user, :invitation_email, invite, request.host )
+    begin
+      invite.save!
+      deliver(:user, :invitation_email, invite, request.host )
+      flash[:success] = "Invitation sent successfuly!"
+    rescue Exception => e
+      flash[:error] = e.message
+    end
     
-    render 'team/show', :layout => :application
+    redirect_to "/teams/#{@team.id}"
   end
   
   get :accept_invite, :map => '/teams/:team_id/invites/:invite_uuid/accept' do
