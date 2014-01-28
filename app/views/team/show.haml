@@ -103,6 +103,7 @@
 					{
 						text: "Cancel",
 						"class" : "btn btn-xs",
+						"id" : "btn-invite-cancel",
 						click: function() {
 							$( this ).dialog( "close" ); 
 						} 
@@ -110,9 +111,18 @@
 					{
 						text: "Invite",
 						"class" : "btn btn-success btn-xs",
+						"id" : "btn-invite-ok",
 						click: function() {
+							$( "#btn-invite-ok" ).addClass('hide');
+							$( "#btn-invite-cancel" ).addClass('hide');
+							$( "#btn-invite-pls-wait" ).removeClass('hide');
 							$( "#invite-form" ).submit(); 
 						} 
+					},
+					{
+						text: "Please wait...",
+						"class" : "btn btn-light btn-xs hide",
+						"id" : "btn-invite-pls-wait"
 					}
 				]
 			});
