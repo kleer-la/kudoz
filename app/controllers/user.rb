@@ -108,5 +108,40 @@ Kudoz::App.controllers :user do
       end
 
     end
+    
+    get :mood_happy, :provides => :js, :map => "/user/mood/happy.js" do
+      @my_user = User.find_by_id( session[:my_user_id] )
+      
+      if !@my_user.nil?
+        @my_user.update_attributes!( :mood => "happy" )
+        "$( '#moodlink' ).attr('style', 'background-color: rgb(135, 184, 127);');" +
+        "$( '#moodicon' ).removeClass('icon-meh');" +
+        "$( '#moodicon' ).removeClass('icon-frown');" +
+        "$( '#moodicon' ).addClass('icon-smile');"
+      end
+    end
 
+    get :mood_meh, :provides => :js, :map => "/user/mood/meh.js" do
+      @my_user = User.find_by_id( session[:my_user_id] )
+      
+      if !@my_user.nil?
+        @my_user.update_attributes!( :mood => "meh" )      
+        "$( '#moodlink' ).attr('style', 'background-color: rgb(255, 183, 82);');" +
+        "$( '#moodicon' ).removeClass('icon-smile');" +
+        "$( '#moodicon' ).removeClass('icon-frown');" +
+        "$( '#moodicon' ).addClass('icon-meh');"
+      end
+    end
+    
+    get :mood_annoyed, :provides => :js, :map => "/user/mood/annoyed.js" do
+      @my_user = User.find_by_id( session[:my_user_id] )
+      
+      if !@my_user.nil?
+        @my_user.update_attributes!( :mood => "annoyed" )      
+        "$( '#moodlink' ).attr('style', 'background-color: rgb(209, 91, 71);');" +
+        "$( '#moodicon' ).removeClass('icon-meh');" +
+        "$( '#moodicon' ).removeClass('icon-smile');" +
+        "$( '#moodicon' ).addClass('icon-frown');"
+      end
+    end  
 end

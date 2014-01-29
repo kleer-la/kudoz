@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :accounts, dependent: :destroy
   has_many :teams, through: :accounts
   
-  attr_accessible :name, :provider, :uid, :fname, :lname, :image_url, :email, :accounts, :needs_initialization, :twitter
+  attr_accessible :name, :provider, :uid, :fname, :lname, :image_url, :email, :accounts, :needs_initialization, :twitter, :mood
   
   def name
     "#{self.fname} #{self.lname}"

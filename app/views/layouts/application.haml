@@ -42,6 +42,7 @@
 	= javascript_include_tag "/javascripts/jquery.ui.touch-punch.min.js"
 	= javascript_include_tag "/javascripts/jquery.knob.min.js"
 	= javascript_include_tag "/javascripts/jquery.inputlimiter.1.3.1.min.js"
+	= javascript_include_tag 'jquery-ujs'
 
 - if @my_user.nil?
 	- if @invite.nil?
@@ -102,12 +103,42 @@
 							Kudoz.io
 				.navbar-header.pull-right{ :role => "navigation" }
 					%ul.nav.ace-nav
-						%li.green
-							%a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#"}
-								%i.icon-group
-								%span.badge.badge-green
-									= @my_user.teams.count
+						%li
+							- if @my_user.mood == "happy"
+								%a.dropdown-toggle#moodlink{ "data-toggle" => "dropdown", :href => "#", :style => "background-color: rgb(135, 184, 127);"  }
+									%i#moodicon.icon-smile
+							- elsif @my_user.mood == "meh"
+								%a.dropdown-toggle#moodlink{ "data-toggle" => "dropdown", :href => "#", :style => "background-color: rgb(255, 183, 82);"  }
+									%i#moodicon.icon-meh							
+							- elsif @my_user.mood == "annoyed"
+								%a.dropdown-toggle#moodlink{ "data-toggle" => "dropdown", :href => "#", :style => "background-color: rgb(209, 91, 71);"  }
+									%i#moodicon.icon-frown
 							%ul.pull-right.dropdown-navbar.dropdown-menu.dropdown-caret.dropdown-close
+								%li.dropdown-header
+									%i.icon-smile
+									= "My mood now is ..."
+								%li
+									%a{ :href => "/user/mood/happy.js", "data-remote" => "true" }
+										%i.btn.btn-xs.no-hover.btn-success.icon-smile
+										Happy
+								%li
+									%a{ :href => "/user/mood/meh.js", "data-remote" => "true" }
+										%i.btn.btn-xs.no-hover.btn-warning.icon-meh
+										Meh
+								%li
+									%a{ :href => "/user/mood/annoyed.js", "data-remote" => "true" }
+										%i.btn.btn-xs.no-hover.btn-danger.icon-frown
+										Annoyed
+								%li
+									%a{ :href => "/user/mood" }
+										See all your team moods
+										%i.icon-arrow-right										
+						%li.purple.no-border.margin-1.light-pink
+							%a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#" }
+								%i.icon-group.pink
+								%span.badge.badge-pink
+									= @my_user.teams.count
+							%ul.pull-right.dropdown-navbar.dropdown-menu.dropdown-caret.dropdown-close.navbar-pink
 								%li.dropdown-header
 									%i.icon-group
 									= "#{@my_user.teams.count} Team(s)"
