@@ -10,6 +10,8 @@ class Transfer < ActiveRecord::Base
           raise 'Transfers are allowed only between accounts of the same team.'
         elsif self.ammount > self.origin.balance
           raise "There're not enough Kudoz for this deposit."
+        elsif self.ammount < 0
+          raise "Can't deposit negative amounts."
         end
         
         self.save!
