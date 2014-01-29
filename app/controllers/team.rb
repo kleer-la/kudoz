@@ -5,6 +5,15 @@ Kudoz::App.controllers :team do
     @my_user = User.find_by_id( session[:my_user_id] )
     @team = Team.find_by_id( params[:id] )
     
+    team_member_count = @team.accounts.count
+    team_member_happy_count = @team.accounts.select { |account| account.user.mood == "happy" }.count
+    team_member_meh_count = @team.accounts.select { |account| account.user.mood == "meh" }.count
+    team_member_annoyed_count = @team.accounts.select { |account| account.user.mood == "annoyed" }.count
+    
+    @team_member_happy_percentage = (team_member_happy_count.to_f / team_member_count.to_f)*100
+    @team_member_meh_percentage = (team_member_meh_count.to_f / team_member_count.to_f)*100
+    @team_member_annoyed_percentage = (team_member_annoyed_count.to_f / team_member_count.to_f)*100
+    
     render 'team/show', :layout => :application
   end
   
