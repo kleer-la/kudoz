@@ -48,7 +48,8 @@ class User < ActiveRecord::Base
                   lname: lname,
                   image_url: image_url,
                   email: email,
-                  twitter: twitter)
+                  twitter: twitter,
+                  mood: "happy")
                   
         if user.email == ""
           user.update_attributes!( :needs_initialization => true )
