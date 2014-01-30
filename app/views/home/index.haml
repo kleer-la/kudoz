@@ -33,7 +33,7 @@
 												%em
 													= "'#{transaction.message}'"
 												%br
-												= "- #{transaction.origin.user.name} (#{transaction.origin.team.name})"
+												= "- #{transaction.origin.user.name}"
 												%small.pull-right
 													%em
 														= distance_of_time_in_words( transaction.created_at, Time.now ) + " ago."

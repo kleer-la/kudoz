@@ -1,14 +1,22 @@
 module FeedbackEngine
 
-  def self.start_feedback_cycle(execute = false)
-    kudozio = User.where( "is_kudozio = ?", true ).first
-    kleer = Team.where( "name = ?", "Kleer" ).first
+  def self.start_feedback_cycle(team_name = "Kleer", execute = false)
     
-    if !kleer.nil? && !kudozio.nil?
+    kudozio = User.where( "is_kudozio = ?", true ).first
+    team = Team.where( "name = ?", team_name ).first
+    
+    if !team.nil? && !kudozio.nil?
       kudozio_account = kudozio.accounts.first
       
+      if execute
+        feedback_cycle = FeedbackCycle.new
+        feedback_cycle.team = team
+        feedback_cycle.started_on = Time.now
+        feedback_cycle.save!
+      end
+      
       if !kudozio_account.nil?
-        kleer.accounts.each do |destination_account|
+        team.accounts.each do |destination_account|
       
           tx = Transfer.new
           tx.ammount = 100
