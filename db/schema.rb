@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 13) do
+ActiveRecord::Schema.define(:version => 14) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "balance"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 13) do
     t.boolean  "needs_initialization"
     t.string   "twitter"
     t.string   "mood"
+    t.boolean  "is_kudozio"
   end
 
 end

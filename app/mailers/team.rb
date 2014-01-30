@@ -1,7 +1,7 @@
 Kudoz::App.mailer :team do
 
   email :transfer_email do |transfer, account, hostname |
-    from 'Kudoz.io <noreply@kudoz.io>'
+    from 'Kudoz.io <no-reply@kudoz.io>'
     to account.user.email
     subject "#{transfer.ammount} Kudoz for #{transfer.destination.user.name}!"
     locals :transfer => transfer, :account => account, :hostname => hostname
@@ -10,7 +10,7 @@ Kudoz::App.mailer :team do
   end
 
   email :new_joiner_email do |new_joiner_account, account, hostname|
-    from 'Kudoz.io <noreply@kudoz.io>'
+    from 'Kudoz.io <no-reply@kudoz.io>'
     to account.user.email
     subject "Welcome #{new_joiner_account.user.fname} to #{account.team.name} team!"
     locals :new_joiner_account => new_joiner_account, :account => account, :hostname => hostname

@@ -6,24 +6,39 @@ class Transfer < ActiveRecord::Base
     
     def execute!
         
-        if origin.team.id != destination.team.id
-          raise 'Transfers are allowed only between accounts of the same team.'
-        elsif self.ammount > self.origin.balance
-          raise "There're not enough Kudoz for this deposit."
-        elsif self.ammount < 0
-          raise "Can't deposit negative amounts."
-        end
+        if !destination.user.is_kudozio
         
-        self.save!
+          if !origin.user.is_kudozio
+            if origin.team.id != destination.team.id
+              raise 'Transfers are allowed only between accounts of the same team.'
+            elsif self.ammount > self.origin.balance
+              raise "There're not enough Kudoz for this deposit."
+            elsif self.ammount < 0
+              raise "Can't deposit negative amounts."
+            end
+          end
         
-        Transfer.transaction do
-        
-          origin.update_attributes!( :balance => origin.balance - ammount )
-          destination.update_attributes!( :balance => destination.balance + ammount )
           self.save!
         
+          Transfer.transaction do
+        
+            if !origin.user.is_kudozio
+              origin.update_attributes!( :balance => origin.balance - ammount )
+            end
+          
+            destination.update_attributes!( :balance => destination.balance + ammount )
+            self.save!
+        
+          end
+        
+        else
+          raise "You can't transfer Kudos to Kudozio The Great."
         end
       
+    end
+    
+    def to_s
+      "#{self.ammount} Kudos from #{self.origin.user.name} to #{self.destination.user.name}: #{self.message}"
     end
     
 end
