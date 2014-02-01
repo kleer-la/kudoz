@@ -1,0 +1,15 @@
+Kudoz.io
+= "==============================================================="
+= "Feedback Cycle Just Finished at #{feedback_cycle.team.name} team!"
+= "---------------------------------------------------------------"
+= "Hey #{user.fname}! Here you have the raking for this feedback cycle at #{feedback_cycle.team.name}:"
+- feedback_cycle.positions.sort! {|a, b| b.received_kudoz <=> a.received_kudoz }.each do |position|
+	= "#{position.user.name} received #{position.received_kudoz} Kudoz!"
+= " "
+Ok, hope you've done great this time. If not, better luck for next feedback cycle!
+
+See you! :)
+Kudozio The Great
+= "---------------------------------------------------------------"
+= "This message was sent to #{user.email}."
+= "Kudoz.io Team."
