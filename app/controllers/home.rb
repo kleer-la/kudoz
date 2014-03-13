@@ -23,11 +23,11 @@ Kudoz::App.controllers :home do
 
     @my_user = User.find_by_id( session[:my_user_id] )
     
-    if !@my_user.nil?
+    if @my_user.nil?
+      session[:invite_uid] = params[:my_user_id]
+    else
       @teams = @my_user.teams
       @visible_transactions = @my_user.visible_transactions
-    else
-      session[:invite_uid] = params[:my_user_id]
     end
     
     render 'home/index', :layout => :application

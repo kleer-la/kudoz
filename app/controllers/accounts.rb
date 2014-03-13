@@ -1,3 +1,5 @@
+require "pp"
+
 Kudoz::App.controllers :accounts do
   
   # get :index, :map => '/foo/bar' do
@@ -35,7 +37,9 @@ Kudoz::App.controllers :accounts do
     @my_account = @my_user.accounts.select { |account| account.team.id == @team.id }.first
     
     if !@account.nil? && !@my_account.nil?
-    
+
+      pp :transfer
+
       @transfer = Transfer.new(params[:transfer])
       @transfer.origin = @my_account
       @transfer.destination = @account

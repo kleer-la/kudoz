@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe "TeamController" do
+# describe "TeamController" do
 
-end
+# end

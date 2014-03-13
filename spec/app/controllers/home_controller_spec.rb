@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe "HomeController" do
-  before do
-    get "/"
-  end
+# describe "HomeController" do
+#   before do
+#     get "/"
+#   end
 
-  it "returns hello world" 
-end
+#   it "returns hello world" 
+# end
