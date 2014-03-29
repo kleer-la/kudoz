@@ -124,7 +124,7 @@ describe Transfer do
 
      tr.origin.balance.should == 100
      tr.destination.balance.should == 100
-   end
+  end
   
   it "should require an ammount" do
      tr = Transfer.new
@@ -132,52 +132,50 @@ describe Transfer do
      tr.destination = @u2.accounts.first
      tr.ammount = ""
      expect { tr.execute! }.to raise_error
-
+     
      tr.origin.balance.should == 100
      tr.destination.balance.should == 100
-   end
-
-   it "should require a message" do
-      tr = Transfer.new
-      tr.origin = @u1.accounts.first
-      tr.destination = @u2.accounts.first
-      tr.ammount = 10
-      tr.message = ""
-      expect { tr.execute! }.to raise_error
-
-      tr.origin.balance.should == 100
-      tr.destination.balance.should == 100
-    end
-    
-    it "should have a to_s method" do
-        tr = Transfer.new
-        tr.origin = @u1.accounts.first
-        tr.destination = @u2.accounts.first
-        @u1.fname = "Alejandro"
-        @u1.lname = "Korn"
-        @u2.fname = "Marcos"
-        @u2.lname = "Paz"
-        @u1.save!
-        @u2.save!
-        tr.ammount = 10
-        tr.message = "here the message"
-        tr.to_s.should == "10 Kudos from Alejandro Korn to Marcos Paz: here the message"
-      end
-      
-      it "should have a to_s method" do
-          tr = Transfer.new
-          tr.origin = @u1.accounts.first
-          tr.destination = @u2.accounts.first
-          @u1.fname = "Coronel"
-          @u1.lname = "Brandsen"
-          @u2.fname = "San"
-          @u2.lname = "Clemente"
-          @u1.save!
-          @u2.save!
-          tr.ammount = 100
-          tr.message = "Another Message"
-          tr.to_s.should == "100 Kudos from Coronel Brandsen to San Clemente: Another Message"
-        end
-   
+  end
   
+  it "should require a message" do
+    tr = Transfer.new
+    tr.origin = @u1.accounts.first
+    tr.destination = @u2.accounts.first
+    tr.ammount = 10
+    tr.message = ""
+    expect { tr.execute! }.to raise_error
+    
+    tr.origin.balance.should == 100
+    tr.destination.balance.should == 100
+  end
+  
+  it "should have a to_s method" do
+    tr = Transfer.new
+    tr.origin = @u1.accounts.first
+    tr.destination = @u2.accounts.first
+    @u1.fname = "Alejandro"
+    @u1.lname = "Korn"
+    @u2.fname = "Marcos"
+    @u2.lname = "Paz"
+    @u1.save!
+    @u2.save!
+    tr.ammount = 10
+    tr.message = "here the message"
+    tr.to_s.should == "10 Kudos from Alejandro Korn to Marcos Paz: here the message"
+  end
+  
+  it "should have a to_s method" do
+    tr = Transfer.new
+    tr.origin = @u1.accounts.first
+    tr.destination = @u2.accounts.first
+    @u1.fname = "Coronel"
+    @u1.lname = "Brandsen"
+    @u2.fname = "San"
+    @u2.lname = "Clemente"
+    @u1.save!
+    @u2.save!
+    tr.ammount = 100
+    tr.message = "Another Message"
+    tr.to_s.should == "100 Kudos from Coronel Brandsen to San Clemente: Another Message"
+  end
 end
