@@ -47,8 +47,6 @@ Kudoz::App.controllers :accounts do
       begin
         @transfer.execute!
         
-        NotificationHelper.notify_transfer(@transfer, request.host)
-        
         flash[:success] = "Deposit successfuly done!"
       rescue Exception => e
         flash[:error] = e.message

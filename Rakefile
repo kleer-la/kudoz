@@ -10,11 +10,18 @@ PadrinoTasks.init
 require_relative './app/helpers/notification_helper'
 
 task :notify_transfers do
-  transfer = Transfer.new do |t|
-    t.ammount = 1
-    t.message = 'Hola'
-    t.origin = Account.find_by_id(4)
-    t.destination = Account.find_by_id(2)
+  
+  Transfer.find_all_by_notified(false).each do |transfer|
+    begin
+      NotificationHelper.notify_transfer(transfer, nil)
+      
+      transfer.notified = true
+      transfer.save!
+      
+      puts "Transfer #{transfer} notified."
+    rescue Exception => e
+      puts e.message
+    end
   end
-  NotificationHelper.notify_transfer(transfer, nil)
+  
 end
