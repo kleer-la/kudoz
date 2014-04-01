@@ -1,12 +1,13 @@
 # Tasks for scheduler
-# padrino rake notify_transfers
+# padrino rake notify_transfers[kudoz.io]
 
 desc "Send transfer notificatios"
-task :notify_transfers => :environment do
+task :notify_transfers, [:hostname] => :environment do |t, args|
+  hostname = args[:hostname] ||= 'localhost:3000'
   
   Transfer.find_all_by_notified(false).each do |transfer|
     begin
-      NotificationHelper.notify_transfer(transfer, nil)
+      NotificationHelper.notify_transfer(transfer, hostname)
       
       transfer.notified = true
       transfer.save!
