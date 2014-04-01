@@ -2,6 +2,23 @@ require 'mail'
 
 class NotificationHelper
 
+  def self.notify_transfers(hostname)
+
+    Transfer.find_all_by_notified(false).each do |transfer|
+      begin
+        notify_transfer(transfer, hostname)
+        
+        transfer.notified = true
+        transfer.save!
+        
+        puts "Transfer #{transfer} notified."
+      rescue Exception => e
+        puts e.message
+      end
+    end
+
+  end
+
   def self.notify_transfer(transfer, hostname)
     
     transfer.destination.team.accounts.each do |account|
