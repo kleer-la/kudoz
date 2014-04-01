@@ -29,7 +29,7 @@ Kudoz::App.controllers :team do
     
     begin
       invite.save!
-      deliver(:user, :invitation_email, invite, request.host_with_port )
+      NotificationHelper.notify_invite(invite, request.host_with_port)
       flash[:success] = "Invitation sent successfuly!"
     rescue Exception => e
       flash[:error] = e.message

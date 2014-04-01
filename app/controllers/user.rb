@@ -24,7 +24,7 @@ Kudoz::App.controllers :user do
 
             invite.team.accounts.each do |account|
               if !account.user.email.nil? && account.user.email != ""
-                deliver(:team, :new_joiner_email, new_account, account, request.host_with_port ) unless new_account.user.id == account.user.id
+                NotificationHelper.notify_new_joiner(new_account, account, request.host_with_port) unless new_account.user.id == account.user.id
               end
             end
          end
