@@ -1,5 +1,6 @@
 class Account < ActiveRecord::Base
-  
+  include AccountLogic
+
   belongs_to :user
   belongs_to :team
   
@@ -7,10 +8,6 @@ class Account < ActiveRecord::Base
   has_many :deposits, :class_name => "Transfer", :foreign_key => "destination_account_id"
   
   before_create :set_default_values
-  
-  def transactions
-    (withdrawals | deposits).sort! {|a, b| b.created_at <=> a.created_at }
-  end
   
   protected
     def set_default_values
