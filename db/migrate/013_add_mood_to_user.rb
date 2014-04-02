@@ -1,5 +1,8 @@
 class AddMoodToUser < ActiveRecord::Migration
   def self.up
+    # Should't use models oudated collumn information
+    User.reset_column_information
+
     change_table :users do |t|
       t.string :mood
     end
