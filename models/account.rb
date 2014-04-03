@@ -9,6 +9,10 @@ class Account < ActiveRecord::Base
   
   after_initialize :set_default_values,  if: :new_record?
   
+  def transactions
+    (withdrawals | deposits).sort! {|a, b| b.created_at <=> a.created_at }
+  end
+
   protected
 
   def set_default_values

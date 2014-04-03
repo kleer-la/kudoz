@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Account" do
   
   let(:account) do
-    Account.create
+    Account.new
   end
 
   it "should have 100 Kudoz upon creation" do
