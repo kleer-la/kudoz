@@ -6,7 +6,6 @@ class Team < ActiveRecord::Base
   has_many :withdrawals, through: :accounts
   has_many :deposits, through: :accounts
   
-  
   validates :name, :presence => true
   
   def transactions

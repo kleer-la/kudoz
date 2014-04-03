@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Account" do
+describe Account do
   
   let(:account) do
     Account.new
