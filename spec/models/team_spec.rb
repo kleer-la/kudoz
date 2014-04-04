@@ -3,15 +3,15 @@ require 'spec_helper'
 describe Team do
   
   before(:each) do
-    @team = Team.create( name: "Equipo de Testing" )
-    @u1 = User.create( accounts: [ Account.create( team: @team ) ] )
-    @u2 = User.create( accounts: [ Account.create( team: @team ) ] )
+    @team = Team.new { |t| t.name = "Equipo de Testing" }
+    @acc1 = @team.accounts.build(team: @team, user: User.new)
+    @acc2 = @team.accounts.build(team: @team, user: User.new)
   end
   
   it "should list all team transactions" do
     tr = Transfer.new
-    tr.origin = @u1.accounts.first
-    tr.destination = @u2.accounts.first
+    tr.origin = @acc1
+    tr.destination = @acc2
     tr.ammount = 15
     tr.message = "Mensaje de prueba"
     tr.execute!
