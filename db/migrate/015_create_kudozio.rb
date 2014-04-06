@@ -1,5 +1,9 @@
 class CreateKudozio < ActiveRecord::Migration
   def self.up
+    # Should't use models oudated collumn information
+    Account.reset_column_information
+    User.reset_column_information
+
     kudozio = User.where( "is_kudozio = ?", true ).first
     
     if kudozio.nil?
@@ -9,6 +13,10 @@ class CreateKudozio < ActiveRecord::Migration
   end
 
   def self.down
+    # Should't use models oudated collumn information
+    Account.reset_column_information
+    User.reset_column_information
+
     kudozio = User.where( "is_kudozio = ?", true ).first
     kudozio.destroy
   end

@@ -1,0 +1,21 @@
+Refactorings
+
+- Correr los specs sin ActiveRecord
+  Ventaja: mayor velocidad, desventaja: hay que separar la logica del model
+- Sacar find_for_omniouth de la clase User
+  Ventaja: separacion de responsabilidades.
+- No usar metodos de persistencia desde el modelo
+  Ventaja: separacion de responsabilidades, desventajas: hay que probar bien
+- Definir una fachada de servicios a los cuales llamen los controllers
+  Ventaja: se pueden testear las capas de servicios, manejo de transacciones y acceso a datos centralizado, desventajas: mas codigo
+- La fachada de servicios debiera manejar la persistencia y transacciones
+  Ventaja: separacion de responsabilidades, posibilita cambiar persistencia en el futuro, desventajas: ?
+- Analizar before_create vs constructor
+  Ventaja: no depender de ActiveRecord, desventaja: podemos perder funcionalidades
+- Reacomodar if para hacer menos profunda el anidamiento
+  Ventaja: codigo mas legible, desventaja: posible impacto con otros branches, probar de nuevo.
+
+Dudas de diseño
+- Kudozio es User o Account? No deberia haber un Kudozio por Team?
+- Esta bien que User conozca a Account?
+- Mood es del User o de Account (con respecto al Team)

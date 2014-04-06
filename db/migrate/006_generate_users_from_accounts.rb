@@ -1,6 +1,10 @@
 class GenerateUsersFromAccounts < ActiveRecord::Migration
   
   def self.up
+    # Should't use models oudated collumn information
+    Account.reset_column_information
+    User.reset_column_information
+
     Account.all.each do |account|
       user = User.create( fname: account.name.split(" ")[0],
                           lname: account.name.split(" ")[1],
@@ -14,6 +18,10 @@ class GenerateUsersFromAccounts < ActiveRecord::Migration
   end
 
   def self.down
+    # Should't use models oudated collumn information
+    Account.reset_column_information
+    User.reset_column_information
+    
     User.all.each do |user|
       user.account.name = user.fname + " " + user.lname
       user.account.email = user.email

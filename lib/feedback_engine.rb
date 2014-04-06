@@ -10,7 +10,7 @@ module FeedbackEngine
 
       if execute
         fc.start!(get_kudozio_account()).each do |destination_account|
-          Kudoz::App.deliver(:account, :feedback_cycle_start_email, destination_account)
+          NotificationHelper.notify_feedback_cycle_start(destination_account)
         end
       else
         fc.start(get_kudozio_account())
@@ -29,11 +29,11 @@ module FeedbackEngine
     if execute
       fc.finish!(get_kudozio_account()).each do |discount_transfer|
         puts discount_transfer.to_s
-        Kudoz::App.deliver(:account, :feedback_cycle_discounted_email, discount_transfer)
+        NotificationHelper.notify_feedback_cycle_discount(discount_transfer)
       end
       
       fc.team.users.each do |user|
-        Kudoz::App.deliver(:account, :feedback_cycle_finish_email, fc, user)
+        NotificationHelper.notify_feedback_cycle_end(fc, user)
       end
     else
       fc.finish(get_kudozio_account())

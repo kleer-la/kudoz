@@ -45,14 +45,7 @@ Kudoz::App.controllers :accounts do
       @transfer.destination = @account
       
       begin
-
         @transfer.execute!
-      
-        @transfer.destination.team.accounts.each do |account|
-          if !account.user.email.nil? && account.user.email != ""
-            deliver(:team, :transfer_email, @transfer, account, request.host )
-          end
-        end
         
         flash[:success] = "Deposit successfuly done!"
       rescue Exception => e
