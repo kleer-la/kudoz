@@ -1,7 +1,7 @@
 class FeedbackCycle < ActiveRecord::Base
 
   belongs_to :team
-  has_many :positions, :class_name => "FeedbackCyclePosition"
+  has_many :positions, :class_name => "FeedbackCyclePosition", dependent: :destroy
   
   def start!(kudozio_account)
     start(kudozio_account, true)
@@ -13,11 +13,6 @@ class FeedbackCycle < ActiveRecord::Base
       return []
     end
 
-    if execute
-      self.started_on = Time.now
-      self.save!
-    end
-    
     self.team.accounts.each do |destination_account|
 
       tx = Transfer.build(
@@ -39,6 +34,7 @@ class FeedbackCycle < ActiveRecord::Base
     end
     
     if execute
+      self.started_on = Time.now
       self.team.accounts
     else
       []
@@ -101,23 +97,24 @@ class FeedbackCycle < ActiveRecord::Base
     
     end
   
-    self.team.users.each do |usr|
+    self.team.users.each do |user|
       
-      if givvers[usr.id].nil?
-        givvers[usr.id] = 0
-      elsif givvers[usr.id] > 100
-        givvers[usr.id] = 100
+      if givvers[user.id].nil?
+        givvers[user.id] = 0
+      elsif givvers[user.id] > 100
+        givvers[user.id] = 100
       end
     
-      if getters[usr.id].nil?
-        getters[usr.id] = 0
+      if getters[user.id].nil?
+        getters[user.id] = 0
       end
       
-      remove = (100-givvers[usr.id])*2
+      remove = (100-givvers[user.id])*2
     
       if remove > 0
         
-        source_account = self.team.accounts.select{ |account| account.user.id == usr.id }.first.reload
+        source_account = self.team.accounts.select{ |account| 
+          account.user.id == user.id }.first
 
         tx = Transfer.build(
           kudozio_account, source_account,
@@ -136,12 +133,12 @@ class FeedbackCycle < ActiveRecord::Base
     end
   
     if execute 
-      getters.each do |key, val|
-        self.positions << FeedbackCyclePosition.create( user: User.find(key), received_kudoz: val )
+      getters.each do |user_id, kudoz|
+        user = self.team.users.select{ |u| u.id == user_id }.first
+        self.positions.build(feedback_cycle: self, user: user, received_kudoz: kudoz)
       end
       
       self.finished_on = Time.now
-      self.save!
     end
     
     discounts

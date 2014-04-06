@@ -1,4 +1,5 @@
 class Account < ActiveRecord::Base
+
   belongs_to :user
   belongs_to :team
   
@@ -9,6 +10,16 @@ class Account < ActiveRecord::Base
   
   def transactions
     (withdrawals | deposits).sort! {|a, b| b.created_at <=> a.created_at }
+  end
+
+  def deposit(ammount)
+    update_attributes!(:balance => self.balance + ammount)
+    # self.balance = self.balance + ammount
+  end
+
+  def withdraw(ammount)
+    update_attributes!(:balance => self.balance - ammount)
+    # self.balance = self.balance - ammount
   end
 
   protected

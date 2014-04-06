@@ -5,7 +5,9 @@ module FeedbackEngine
     team = Team.find(team_id)
     
     if !team.nil?
-      fc = FeedbackCycle.create(team: team)
+
+      fc = FeedbackCycle.new(team: team)
+
       if execute
         fc.start!(get_kudozio_account()).each do |destination_account|
           Kudoz::App.deliver(:account, :feedback_cycle_start_email, destination_account)
@@ -13,6 +15,9 @@ module FeedbackEngine
       else
         fc.start(get_kudozio_account())
       end
+
+      fc.save!
+      
     end
     
   end
@@ -32,6 +37,13 @@ module FeedbackEngine
       end
     else
       fc.finish(get_kudozio_account())
+    end
+
+    ActiveRecord::Base.transaction do
+      fc.save!
+      fc.accounts.each { |acc|
+        acc.save!
+      }
     end
     
   end
