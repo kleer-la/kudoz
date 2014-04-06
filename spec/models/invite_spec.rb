@@ -1,27 +1,36 @@
-require 'spec_helper'
+require 'support/active_record'
 
 describe Invite do
   
   it "should atumatically generate a UUID on creation" do
-    i = Invite.create( guest_email: "martin.alaimo@kleer.la", message: "un mensaje" )
+    invite = Invite.new { |i|
+      i.guest_email = "martin.alaimo@kleer.la"
+      i.message = "un mensaje"
+    }
     
-    i.uuid.nil?.should be false
-    i.uuid.length.should == 36
+    invite.uuid.nil?.should be false
+    invite.uuid.length.should == 36
   end
   
   it "should require an email" do
-    i = Invite.create( message: "un mensaje" )
-    i.valid?.should be false
+    invite = Invite.new { |i| i.message = "un mensaje" }
+
+    invite.valid?.should be false
   end
 
   it "should require a message" do
-    i = Invite.create( guest_email: "martin.alaimo@kleer.la" )
-    i.valid?.should be false
+    invite = Invite.new { |i| i.guest_email = "martin.alaimo@kleer.la" }
+
+    invite.valid?.should be false
   end
 
   it "should require a valid email" do
-    i = Invite.create( guest_email: "cualquier cosa", message: "un mensaje" )
-    i.valid?.should be false  
+    invite = Invite.new { |i|
+      i.guest_email = "cualquier cosa"
+      i.message = "un mensaje"
+    }
+
+    invite.valid?.should be false  
   end
   
 end
