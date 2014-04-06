@@ -17,7 +17,7 @@ module FeedbackEngine
       end
 
       fc.save!
-      
+
     end
     
   end
@@ -41,7 +41,7 @@ module FeedbackEngine
 
     ActiveRecord::Base.transaction do
       fc.save!
-      fc.accounts.each { |acc|
+      fc.team.accounts.each { |acc|
         acc.save!
       }
     end

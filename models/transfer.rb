@@ -24,7 +24,6 @@ class Transfer < ActiveRecord::Base
   def execute!
     
     raise "You can't transfer Kudos to Kudozio The Great." if destination.user.is_kudozio
-    raise "Invalid transfer data." unless valid?
 
     unless origin.user.is_kudozio
       if origin.team.id != destination.team.id
@@ -33,8 +32,12 @@ class Transfer < ActiveRecord::Base
         raise "There're not enough Kudoz for this deposit."
       elsif self.ammount < 0
         raise "Can't deposit negative amounts."
+      elsif self.message.blank?
+        raise "Please type a message."
       end
     end
+
+    raise "Invalid transfer data." unless valid?
 
     origin.withdraw(ammount) unless origin.user.is_kudozio
     destination.deposit(ammount)

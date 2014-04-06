@@ -14,7 +14,7 @@ Kudoz::App.controllers :user do
      
        invite = invite_uuid.nil? ? nil : Invite.where("uuid = ?", invite_uuid).first
      
-       user = User.find_for_omniouth( provider, auth, invite )
+       user = OmniAuthService.find_for_omniauth( provider, auth, invite )
      
        if !user.nil?
          session[:my_user_id] = user.id

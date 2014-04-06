@@ -1,5 +1,3 @@
-require "pp"
-
 Kudoz::App.controllers :accounts do
   
   # get :index, :map => '/foo/bar' do
@@ -38,14 +36,17 @@ Kudoz::App.controllers :accounts do
     
     if !@account.nil? && !@my_account.nil?
 
-      pp :transfer
-
       @transfer = Transfer.new(params[:transfer])
       @transfer.origin = @my_account
       @transfer.destination = @account
       
       begin
-        @transfer.execute!
+        ActiveRecord::Base.transaction do
+          @transfer.execute!
+          @transfer.save!
+          @account.save!
+          @my_account.save!
+        end
         
         flash[:success] = "Deposit successfuly done!"
       rescue Exception => e
