@@ -9,13 +9,11 @@ describe Team do
   end
   
   it "should list all team transactions" do
-    tr = Transfer.new
-    tr.origin = @acc1
-    tr.destination = @acc2
-    tr.ammount = 15
-    tr.message = "Mensaje de prueba"
-    tr.execute!
-    
+    Transfer.build(
+      @acc1, @acc2,
+      15, "Mensaje de prueba"
+    ).execute!
+
     @team.transactions.size.should == 1
   end
   

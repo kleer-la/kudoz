@@ -17,20 +17,16 @@ describe User do
   end
   
   it "should list all visible transactions" do
-    tr = Transfer.new
-    tr.origin = @acc1
-    tr.destination = @acc2
-    tr.ammount = 15
-    tr.message = "Mensaje de prueba"
-    tr.execute!
-    
-    tr = Transfer.new
-    tr.origin = @acc3
-    tr.destination = @acc4
-    tr.ammount = 15
-    tr.message = "Mensaje de prueba"
-    tr.execute!
-    
+    Transfer.build(
+      @acc1, @acc2,
+      15, "Mensaje de prueba uno"
+    ).execute!
+
+    Transfer.build(
+      @acc3, @acc4,
+      15, "Mensaje de prueba dos"
+    ).execute!
+   
     @u1.visible_transactions.size.should == 2
   end
     
