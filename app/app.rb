@@ -7,7 +7,7 @@ module Kudoz
     register Padrino::Helpers
 
     enable :sessions
-    
+
     use OmniAuth::Builder do
       # For additional provider examples please look at 'omni_auth.rb'
       provider :google_oauth2, ENV['KUDOZ_GOOGLE_KEY'], ENV['KUDOZ_GOOGLE_SECRET'], {}
@@ -15,15 +15,47 @@ module Kudoz
       provider :facebook, ENV['KUDOZ_FACEBOOK_KEY'], ENV['KUDOZ_FACEBOOK_SECRET'], {}
     end
 
-    set :delivery_method, :smtp => { 
+    set :delivery_method, :smtp => {
       :address              => "smtp.mandrillapp.com",
       :port                 => 587,
       :user_name            => ENV["KUDOZ_SMTP_USERNAME"],
       :password             => ENV["KUDOZ_SMTP_PASSWORD_KEY"],
       :authentication       => :plain,
-      :enable_starttls_auto => true  
+      :enable_starttls_auto => true
     }
-    
+
+    #Memory profiler
+    class OneLastThing
+      def initialize(app)
+        @app = app
+      end
+
+      def call(env)
+        st,hd,bd = @app.call(env)
+        unless App.before_returning.nil?
+          App.before_returning.call
+          App.before_returning = nil
+        end
+        return st,hd,bd
+      end
+    end
+
+    class << self
+      attr_accessor :insight_app
+      attr_accessor :before_returning
+      def before_return(&block)
+        self.before_returning = block
+      end
+    end
+
+    Rack::Insight::Config.configure do |config|
+      config[:log_file] = STDOUT
+    end
+    use Rack::Insight::App, :log_path => "rack-insight-test.log", :on_initialize => proc {|app|
+      self.insight_app = app
+    }
+    use OneLastThing
+
     ##
     # Caching support.
     #
@@ -75,6 +107,6 @@ module Kudoz
     #     render 'errors/505'
     #   end
     #
-    
+
   end
 end
