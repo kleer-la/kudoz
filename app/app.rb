@@ -27,6 +27,7 @@ module Kudoz
     use Oink::Middleware do
       set :logger => Hodel3000CompliantLogger.new(STDOUT)
     end
+
     
     ##
     # Caching support.
