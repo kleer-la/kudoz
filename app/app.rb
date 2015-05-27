@@ -24,38 +24,10 @@ module Kudoz
       :enable_starttls_auto => true
     }
 
-    #Memory profiler
-    class OneLastThing
-      def initialize(app)
-        @app = app
-      end
-
-      def call(env)
-        st,hd,bd = @app.call(env)
-        unless App.before_returning.nil?
-          App.before_returning.call
-          App.before_returning = nil
-        end
-        return st,hd,bd
-      end
+    use Oink::Middleware do
+      set :logger => Hodel3000CompliantLogger.new(STDOUT)
     end
-
-    class << self
-      attr_accessor :insight_app
-      attr_accessor :before_returning
-      def before_return(&block)
-        self.before_returning = block
-      end
-    end
-
-    Rack::Insight::Config.configure do |config|
-      config[:log_file] = STDOUT
-    end
-    use Rack::Insight::App, :log_path => "rack-insight-test.log", :on_initialize => proc {|app|
-      self.insight_app = app
-    }
-    use OneLastThing
-
+    
     ##
     # Caching support.
     #
