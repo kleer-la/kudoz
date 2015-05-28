@@ -36,6 +36,7 @@ Bundler.require(:default, PADRINO_ENV)
 Padrino.before_load do
   Padrino::Logger::Config[:production][:log_level] = :info
   Padrino::Logger::Config[:production][:stream] = :stdout
+  Padrino::Logger.logger = Hodel3000CompliantLogger.new(STDOUT)
 end
 
 ##
