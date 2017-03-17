@@ -20,6 +20,7 @@ gem 'sass'
 gem 'haml'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
 
+
 group :development, :test do
  gem 'sqlite3'
  gem "rails-erd"
