@@ -30,10 +30,10 @@ postgres = URI.parse(ENV['DATABASE_URL'] || '')
 ActiveRecord::Base.configurations[:production] = {
   :adapter  => 'postgresql',
   :encoding => 'utf8',
-  :database => postgres.path[1..-1], 
-  :username => postgres.user,
-  :password => postgres.password,
-  :host     => postgres.host
+  :database => postgresql.path[1..-1],
+  :username => postgresql.user,
+  :password => postgresql.password,
+  :host     => postgresql.host
 }
 
 # Setup our logger
