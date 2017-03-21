@@ -18,6 +18,8 @@ module OmniAuthService
       twitter = auth.info.nickname
     end
 
+    puts "provider: #{provider}"
+    puts "uid: #{uid}"
     user = User.where("provider = ? AND uid = ?", provider, uid).first
 
     if user.nil?
